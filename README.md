@@ -1,2 +1,2 @@
 # 2-ray-kim-community
-커뮤니티 구현 with 바닐라 JS 
+바닐라 JS로 SPA 웹앱 구현하기
