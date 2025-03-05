@@ -1,0 +1,13 @@
+.header-container {
+  width: 100wv;
+  height: 86px;
+  border-bottom: 1px solid;
+}
+
+.header-title {
+  height: 100%;
+  display: flex;
+  font-size: 26px;
+  justify-content: center;
+  align-items: center;
+}
