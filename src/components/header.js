@@ -9,7 +9,7 @@ const Header = () => {
     element.innerHTML = `
       <div class="header-container">
         <h1 class="header-title">
-          Vanilla JS로 Single Page Application 구현해보기 🎈
+          아무 말 대잔치
         </h1>
       </div>
     `;

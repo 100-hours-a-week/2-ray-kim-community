@@ -22,21 +22,21 @@ const LoginPage = () => {
   const render = () => {
     element.innerHTML = `
     <div class="login-container">
-    <h2>로그인</h2>
-    <form id="login-form" onSubmit="handleSubmit(event)">
-    <div class="form-group">
-    <label for="userEmail">아이디</label>
-    <input type="email" id="userEmail" name="userEmail" required>
-    </div>
-    <div class="form-group">
-    <label for="userPassword">비밀번호</label>
-    <input type="password" id="userPassword" name="userPassword" required>
-    </div>
-    <button type="submit" class="btn-login">로그인</button>
-    </form>
-    <div class="signup-link">
-    계정이 없으신가요? <a href="/signup" data-link>회원가입</a>
-    </div>
+      <h2 class="login-container-header">
+        로그인
+      </h2>
+      <form id="login-form" onSubmit="handleSubmit(event)">
+        <div class="form-group">
+          <label for="userEmail">아이디</label>
+          <input type="email" id="userEmail" name="userEmail" placeholder="이메일을 입력하세요."required>
+        </div>
+        <div class="form-group">
+          <label for="userPassword">비밀번호</label>
+          <input type="password" id="userPassword" name="userPassword" placeholder="비밀번호를 입력하세요" required>
+        </div>
+        <button type="submit" class="btn-login">로그인</button>
+      </form>
+      <a href="/signup" data-link>회원가입</a>
     </div>
     `;
 

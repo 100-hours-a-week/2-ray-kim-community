@@ -112,15 +112,15 @@ const PostPage = () => {
 
   // 렌더링 함수
   const render = () => {
-    // 비로그인 상태라면 로그인 페이지로 리다이렉트
-    if (!isLoggedIn) {
-      setTimeout(() => {
-        alert('로그인이 필요한 페이지입니다.');
-        window.history.pushState(null, null, '/login');
-        window.dispatchEvent(new PopStateEvent('popstate'));
-      }, 0);
-      return element;
-    }
+    // // 비로그인 상태라면 로그인 페이지로 리다이렉트
+    // if (!isLoggedIn) {
+    //   setTimeout(() => {
+    //     alert('로그인이 필요한 페이지입니다.');
+    //     window.history.pushState(null, null, '/login');
+    //     window.dispatchEvent(new PopStateEvent('popstate'));
+    //   }, 0);
+    //   return element;
+    // }
 
     if (isNewPost) {
       // 새 게시글 작성 화면
