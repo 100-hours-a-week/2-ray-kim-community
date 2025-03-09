@@ -1,0 +1,10 @@
+.board-page{
+  display: flex;
+  justify-content: center;
+}
+
+.board-container {
+  width: 35vw;
+  min-height: 100vh;
+  background-color:rgb(247, 247, 247);
+}

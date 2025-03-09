@@ -1,5 +1,8 @@
 .post-container {
-
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 12px;
+  box-shadow: 10px 5px 5px;
 }
 
 .upper-side {

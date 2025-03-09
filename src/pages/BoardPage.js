@@ -1,10 +1,9 @@
+import Post from "../components/Post.js"
+
 const BoardPage = () => {
   // DOM 요소 생성
   const element = document.createElement('div');
   element.className = 'board-page';
-
-  // 상태 및 데이터
-  // const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
 
   // 샘플 게시글 데이터
   const posts = [
@@ -14,20 +13,6 @@ const BoardPage = () => {
     { id: 4, title: 'JavaScript 함수형 컴포넌트', author: '작성자4', date: '2025-03-04', views: 75 },
     { id: 5, title: 'History API의 활용', author: '작성자5', date: '2025-03-05', views: 64 }
   ];
-
-  // 게시글 목록 HTML 생성 함수
-  const renderPosts = () => {
-    return posts.map(post => `
-      <tr class="post-item" data-id="${post.id}">
-        <td>${post.id}</td>
-        <td class="post-title">${post.title}</td>
-        <td>${post.author}</td>
-        <td>${post.date}</td>
-        <td>${post.views}</td>
-      </tr>
-    `).join('');
-  };
-
   // 이벤트 리스너 등록 함수
   const init = () => {
     // 글쓰기 버튼 이벤트
@@ -52,49 +37,18 @@ const BoardPage = () => {
 
   // 렌더링 함수
   const render = () => {
-    // // 비로그인 상태라면 로그인 페이지로 리다이렉트
-    // if (!isLoggedIn) {
-    //   setTimeout(() => {
-    //     alert('로그인이 필요한 페이지입니다.');
-    //     window.history.pushState(null, null, '/login');
-    //     window.dispatchEvent(new PopStateEvent('popstate'));
-    //   }, 0);
-    //   return element;
-    // }
-
     element.innerHTML = `
       <div class="board-container">
-        <h2>게시판</h2>
-        <div class="board-actions">
-          <button id="write-btn" class="btn-write">글쓰기</button>
-        </div>
-        <table class="board-table">
-          <thead>
-            <tr>
-              <th width="10%">번호</th>
-              <th width="50%">제목</th>
-              <th width="15%">작성자</th>
-              <th width="15%">작성일</th>
-              <th width="10%">조회수</th>
-            </tr>
-          </thead>
-          <tbody id="posts-list">
-            ${renderPosts()}
-          </tbody>
-        </table>
+        ${Post}     
       </div>
     `;
 
     return element;
   };
 
-  // 페이지 반환 (렌더링 및 초기화)
-  const page = render();
-  setTimeout(init, 0);
-
   return {
-    render: () => page,
-    init: () => { } // 이미 init 호출했으므로 빈 함수
+    render: render,
+    init: init
   };
 };
 
