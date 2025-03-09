@@ -4,7 +4,7 @@ const BoardPage = () => {
   element.className = 'board-page';
 
   // 상태 및 데이터
-  const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
+  // const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
 
   // 샘플 게시글 데이터
   const posts = [
@@ -82,13 +82,6 @@ const BoardPage = () => {
             ${renderPosts()}
           </tbody>
         </table>
-        <div class="pagination">
-          <a href="#" class="page-link active">1</a>
-          <a href="#" class="page-link">2</a>
-          <a href="#" class="page-link">3</a>
-          <a href="#" class="page-link">4</a>
-          <a href="#" class="page-link">5</a>
-        </div>
       </div>
     `;
 

@@ -4,8 +4,8 @@ const ProfilePage = () => {
   element.className = 'profile-page';
 
   // 상태 및 데이터
-  const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
-  const userId = sessionStorage.getItem('userId') || '사용자';
+  // const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
+  const userId = rage.getItem('userId') || '사용자';
 
   // 사용자 이니셜 가져오기
   const getUserInitial = () => {

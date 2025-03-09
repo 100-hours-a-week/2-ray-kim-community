@@ -4,7 +4,7 @@ const PostPage = () => {
   element.className = 'post-page';
 
   // 상태 및 데이터
-  const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
+  // const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
   const urlParams = new URLSearchParams(window.location.search);
   const postId = urlParams.get('id');
   const isNewPost = !postId;
@@ -179,13 +179,9 @@ const PostPage = () => {
     return element;
   };
 
-  // 페이지 반환 (렌더링 및 초기화)
-  const page = render();
-  setTimeout(init, 0);
-
   return {
-    render: () => page,
-    init: () => { } // 이미 init 호출했으므로 빈 함수
+    render: render,
+    init: init
   };
 };
 
