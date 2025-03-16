@@ -1,5 +1,5 @@
 import Post from "../components/Post.js"
-import { posts } from "../constants/response.js";
+import { postItems } from "../constants/response.js";
 
 const BoardPage = () => {
   const element = document.createElement('div');
@@ -16,10 +16,16 @@ const BoardPage = () => {
     // container.innerHTML = '';
 
     // 각 게시글마다 Post 컴포넌트 생성 및 추가
-    posts.forEach(postData => {
+    postItems.forEach(postData => {
       const postComponent = Post(postData);
       container.appendChild(postComponent.render());
     });
+  };
+
+  // 게시글 작성 버튼 클릭 처리
+  const handleCreatePost = () => {
+    window.history.pushState(null, null, '/post');
+    window.dispatchEvent(new PopStateEvent('popstate'));
   };
 
   // 이벤트 리스너 등록 함수
@@ -27,6 +33,11 @@ const BoardPage = () => {
     const postsContainer = element.querySelector('#posts-container');
     if (postsContainer) {
       renderPosts(postsContainer);
+    }
+
+    const createButton = element.querySelector('.btn-create-post');
+    if (createButton) {
+      createButton.addEventListener('click', handleCreatePost);
     }
   }
 
