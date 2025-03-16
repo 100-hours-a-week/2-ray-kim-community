@@ -12,10 +12,20 @@ const LoginPage = () => {
     window.dispatchEvent(new PopStateEvent('popstate'));
   };
 
+  // 회원가입 페이지 이동 함수
+  const handleSignUp = (e) => {
+    e.preventDefault();
+    window.history.pushState(null, null, '/signup');
+    window.dispatchEvent(new PopStateEvent('popstate'));
+  };
+
   // 이벤트 리스너 등록 함수
   const init = () => {
     const form = element.querySelector('#login-form');
     form.addEventListener('submit', handleSubmit);
+
+    const signUpButton = element.querySelector('.btn-signup');
+    signUpButton.addEventListener('click', handleSignUp);
   };
 
   // 렌더링 함수
@@ -36,7 +46,7 @@ const LoginPage = () => {
         </div>
         <button type="submit" class="btn-login">로그인</button>
       </form>
-      <a href="/signup" data-link>회원가입</a>
+      <button class="btn-signup">회원가입</button>
     </div>
     `;
 
@@ -50,6 +60,3 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
-
-// ACA0EB
-// 7F6AEE

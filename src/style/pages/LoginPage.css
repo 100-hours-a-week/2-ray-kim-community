@@ -63,12 +63,18 @@
   cursor: pointer;
   transition: background-color 0.3s;
   padding: 9.5px;
+  margin-bottom: 10px;
 }
 
 .btn-login:hover {
   background-color: #7F6AEE;
 }
 
-.login-container a{
-  margin-top: 8px;  
+.btn-signup {
+  background-color:rgb(247, 247, 247);
+  border: none;
+}
+
+.btn-signup:hover {
+ color: #7F6AEE;
 }
