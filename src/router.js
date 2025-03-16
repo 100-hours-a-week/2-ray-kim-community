@@ -1,3 +1,5 @@
+import Header from "./components/Header.js";
+
 const Router = (routes, container) => {
   // 현재 경로 상태
   let currentPath = window.location.pathname;
@@ -7,15 +9,29 @@ const Router = (routes, container) => {
     // 컨테이너 비우기
     container.innerHTML = '';
 
+    // 헤더 추가
+    const header = Header();
+    container.appendChild(header.render());
+
+    // 콘텐츠 컨테이너 생성
+    const contentContainer = document.createElement('main');
+    contentContainer.id = 'content';
+    container.appendChild(contentContainer);
+
     // 해당 라우트의 페이지 컴포넌트 렌더링
     const path = pathname === '/' ? '/' : `/${pathname.split('/')[1]}`;
     const PageComponent = routes[path] || routes['/'];
     const page = PageComponent();
-    container.appendChild(page.render());
+    contentContainer.appendChild(page.render());
 
     // 페이지 초기화 (이벤트 핸들러 등록 등)
     if (typeof page.init === 'function') {
       page.init();
+    }
+
+    // 헤더 초기화 (이벤트 핸들러 등록 등)
+    if (typeof header.init === 'function') {
+      header.init();
     }
   };
 

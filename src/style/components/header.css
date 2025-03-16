@@ -2,6 +2,18 @@
   width: 100wv;
   height: 86px;
   border-bottom: 1px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-wrapper{
+  position: relative;
+  width: 35vw;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .header-title {
@@ -10,4 +22,19 @@
   font-size: 26px;
   justify-content: center;
   align-items: center;
+}
+
+.header-back-button {
+  position: absolute;
+  left: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.header-spacer {
+  width: 24px;
+  position: absolute;
+  right: 20px;
 }

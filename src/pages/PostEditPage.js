@@ -10,7 +10,14 @@ const PostPage = () => {
 
   // 이벤트 리스너 등록 함수
   const init = () => {
-
+    // 뒤로가기 버튼 이벤트 리스너
+    const backButton = element.querySelector('.postpage-back-button');
+    if (backButton) {
+      backButton.addEventListener('click', () => {
+        window.history.pushState(null, null, '/board');
+        window.dispatchEvent(new PopStateEvent('popstate'));
+      });
+    }
   }
 
   // 렌더링 함수

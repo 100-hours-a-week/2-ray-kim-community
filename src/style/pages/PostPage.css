@@ -5,33 +5,13 @@
 
 .postpage-container {
   width: 100%;
-  max-width: 600px;
+  max-width: 35vw;
   min-height: 100vh;
-}
-
-/* 네비게이션 헤더 */
-.postpage-nav-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 15px;
-  border-bottom: 1px solid #eee;
 }
 
 .postpage-title {
   font-size: 18px;
   font-weight: bold;
-}
-
-.postpage-back-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 5px;
-}
-
-.postpage-spacer {
-  width: 24px;
 }
 
 /* 게시글 헤더 */
@@ -41,7 +21,7 @@
 }
 
 .postpage-post-title {
-  font-size: 22px;
+  font-size: 20 px;
   font-weight: bold;
   margin-bottom: 15px;
 }
@@ -80,13 +60,23 @@
   gap: 8px;
 }
 
-.postpage-post-actions button {
-  background: none;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+.postpage-post-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.postpage-btn-edit,
+.postpage-btn-delete {
+  border: 1px solid #aaaaaa;
+  border-radius: 12px;
   padding: 6px 12px;
   cursor: pointer;
-  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.postpage-btn-edit:hover,
+.postpage-btn-delete:hover {
+  background-color: #e9ecef;
 }
 
 /* 게시글 내용 */
@@ -102,29 +92,40 @@
 /* 액션 버튼 바 */
 .postpage-actions-bar {
   display: flex;
-  border-top: 1px solid #eee;
+  justify-content: space-between;
+  padding-bottom: 15px;
   border-bottom: 1px solid #eee;
+  margin:auto;
+}
+
+.postpage-actions-btn-wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 70%;
+  margin:auto;
 }
 
 .postpage-action-button {
-  flex: 1;
   display: flex;
   flex-direction: column;
+  width: 120px;
+  border-radius: 16px;
   align-items: center;
-  background: none;
   border: none;
   padding: 15px 0;
   cursor: pointer;
+  background-color: #cfcfcf;
 }
 
 .postpage-button-count {
+  font-size: 18px;
   font-weight: bold;
   margin-bottom: 5px;
 }
 
 .postpage-button-label {
-  font-size: 14px;
-  color: #666;
+  font-size: 16px;
+  font-weight: bold
 }
 
 /* 댓글 입력 */
@@ -147,13 +148,17 @@
 }
 
 .postpage-comment-submit {
-  background-color: #7F6AEE;
+  background-color: #ACA0EB;
   color: white;
   border: none;
   border-radius: 20px;
   padding: 0 15px;
   cursor: pointer;
   font-size: 14px;
+}
+
+.postpage-comment-submit:hover {
+  background-color: #7F6AEE;
 }
 
 /* 댓글 목록 */
