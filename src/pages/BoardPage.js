@@ -24,7 +24,7 @@ const BoardPage = () => {
 
   // 게시글 작성 버튼 클릭 처리
   const handleCreatePost = () => {
-    window.history.pushState(null, null, '/post');
+    window.history.pushState(null, null, '/post-create'); // 변경된 부분: '/post'에서 '/post-create'로
     window.dispatchEvent(new PopStateEvent('popstate'));
   };
 

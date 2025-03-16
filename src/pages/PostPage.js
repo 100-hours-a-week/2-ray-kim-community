@@ -8,9 +8,16 @@ const PostPage = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const postId = urlParams.get('id');
 
+  const handleEditPostClick = () => {
+    window.history.pushState(null, null, `/post-edit?id=${postId}`);
+    window.dispatchEvent(new PopStateEvent('popstate'));
+  };
+
+
   // 이벤트 리스너 등록 함수
   const init = () => {
-
+    const editPostButton = element.querySelector('.postpage-btn-edit');
+    editPostButton.addEventListener('click', handleEditPostClick);
   }
 
   // 렌더링 함수

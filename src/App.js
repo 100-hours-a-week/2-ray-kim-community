@@ -4,7 +4,8 @@ import SignUpPage from './pages/SignUpPage.js';
 import BoardPage from './pages/BoardPage.js';
 import PostPage from './pages/PostPage.js';
 import ProfilePage from './pages/ProfilePage.js';
-import PostEditPage from './pages/PostEditPage.js';
+import EditPostPage from './pages/EditPostPage.js';
+import CreatePostPage from './pages/CreatePostPage.js';
 
 const App = () => {
   const routes = {
@@ -13,7 +14,8 @@ const App = () => {
     '/signup': SignUpPage,
     '/board': BoardPage,
     '/post': PostPage,
-    '/post-edit': PostEditPage,
+    '/post-edit': EditPostPage,
+    '/post-create': CreatePostPage,
     '/profile': ProfilePage,
   };
 

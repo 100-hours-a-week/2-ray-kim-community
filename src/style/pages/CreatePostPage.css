@@ -1,0 +1,117 @@
+.createpost-page {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  background-color: #f7f7f7;
+}
+
+.createpost-container {
+  width: 100%;
+  max-width: 35vw;
+  min-width: 500px;
+  min-height: 100vh;
+  background-color: #f7f7f7;
+}
+
+/* 폼 컨테이너 */
+.createpost-form-container {
+  padding: 20px;
+  background-color: #f7f7f7;
+}
+
+.createpost-form-title {
+  display: table;
+  margin: auto;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* 폼 스타일 */
+.createpost-form-group {
+  margin-bottom: 20px;
+}
+
+.createpost-form-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.createpost-required {
+  margin-left: 2px;
+}
+
+.createpost-form-input {
+  width: 100%;
+  padding: 12px;
+  border-bottom: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: bold;
+  box-sizing: border-box;
+  background-color: rgb(247, 247, 247);
+}
+
+.createpost-form-textarea {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 16px;
+  font-weight: bold;
+  box-sizing: border-box;
+  resize: vertical;
+  min-height: 150px;
+  background-color: rgb(247, 247, 247);
+}
+
+.createpost-form-input:focus, 
+.createpost-form-textarea:focus {
+  outline: none;
+  border-color: #7F6AEE;
+}
+
+/* 이미지 업로드 */
+.createpost-image-input-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.createpost-form-input-hidden {
+  display: none;
+}
+
+.createpost-image-button {
+  background-color: #dedede;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.createpost-image-button-label {
+  color: black;
+  font-size: 14px;
+}
+
+/* 등록 버튼 */
+.createpost-submit-button {
+  display: block;
+  width: 70%;
+  margin: auto;
+  background-color: #7F6AEE;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.createpost-submit-button:hover {
+  background-color: #6A58D3;
+}
