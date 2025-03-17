@@ -18,7 +18,7 @@ const removeToken = () => {
 // JSON 파일 로드 함수
 async function loadMockData(filename) {
   try {
-    const response = await fetch(`/mock/${filename}.json`);
+    const response = await fetch(`/public/mock/${filename}.json`);
     if (!response.ok) {
       throw new Error(`모의 데이터 파일을 불러올 수 없습니다: ${filename}`);
     }
@@ -37,11 +37,12 @@ async function apiRequest(endpoint, options = {}) {
     await new Promise(resolve => setTimeout(resolve, MOCK_DELAY));
 
     // 엔드포인트별 모의 응답 처리
-    if (endpoint === '/api/posts') {
+    if (endpoint.startsWith('/api/posts') && !endpoint.match(/^\/api\/posts\/\d+/)) {
       return loadMockData('posts');
     }
-    else if (endpoint.match(/^\/api\/posts\/\d+$/)) {
-      const postId = parseInt(endpoint.split('/').pop());
+    else if (endpoint.match(/^\/api\/posts\/\d+/)) {
+      // 특정 ID를 가진 게시글 처리
+      const postId = parseInt(endpoint.split('/').pop().split('?')[0]);
       try {
         return await loadMockData(`post-${postId}`);
       } catch (error) {
@@ -153,7 +154,7 @@ export const api = {
     // 실제로는 FormData를 사용하지만 모의 데이터에서는 간단하게 처리
     return apiRequest('/api/users/profile/image', {
       method: 'PUT',
-      body: JSON.stringify({ profile_image: 'src/avatar.svg' })
+      body: JSON.stringify({ profile_image: 'public/images/avatar.svg' })
     });
   },
 

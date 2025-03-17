@@ -7,7 +7,7 @@
     "author": {
       "id": 2,
       "nickname": "작성자2",
-      "profile_image": "src/avatar.svg"
+      "profile_image": "public/images/avatar.svg"
     },
     "date": "2025-03-02",
     "likes": 24,
@@ -20,7 +20,7 @@
         "author": {
           "id": 1,
           "nickname": "댓글 작성자3",
-          "profile_image": "src/avatar.svg"
+          "profile_image": "public/images/avatar.svg"
         },
         "date": "2025-03-02"
       }

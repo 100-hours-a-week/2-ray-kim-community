@@ -1,15 +1,29 @@
+import { api } from "../services/api.js";
+
 const LoginPage = () => {
   // DOM 요소 생성
   const element = document.createElement('div');
   element.className = 'login-page';
 
   // 폼 제출 처리 함수
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // 게시판 페이지로 이동
-    window.history.pushState(null, null, '/board');
-    window.dispatchEvent(new PopStateEvent('popstate'));
+    // 폼 데이터 수집
+    const email = document.getElementById('userEmail').value;
+    const password = document.getElementById('userPassword').value;
+
+    try {
+      // 로그인 API 호출
+      const response = await api.login(email, password);
+
+      // 게시판 페이지로 이동
+      window.history.pushState(null, null, '/board');
+      window.dispatchEvent(new PopStateEvent('popstate'));
+    } catch (error) {
+      console.error('로그인 오류:', error);
+      alert('로그인 중 오류가 발생했습니다.');
+    }
   };
 
   // 회원가입 페이지 이동 함수
@@ -28,17 +42,17 @@ const LoginPage = () => {
     signUpButton.addEventListener('click', handleSignUp);
   };
 
-  // 렌더링 함수
+
   const render = () => {
     element.innerHTML = `
     <div class="login-container">
       <h2 class="login-container-header">
         로그인
       </h2>
-      <form id="login-form" onSubmit="handleSubmit(event)">
+      <form id="login-form">
         <div class="form-group">
           <label for="userEmail">아이디</label>
-          <input type="email" id="userEmail" name="userEmail" placeholder="이메일을 입력하세요."required>
+          <input type="email" id="userEmail" name="userEmail" placeholder="이메일을 입력하세요." required>
         </div>
         <div class="form-group">
           <label for="userPassword">비밀번호</label>
