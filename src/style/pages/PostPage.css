@@ -1,0 +1,271 @@
+.post-page {
+  display: flex;
+  justify-content: center;
+}
+
+.postpage-container {
+  width: 100%;
+  max-width: 35vw;
+  min-height: 100vh;
+}
+
+.postpage-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* 게시글 헤더 */
+.postpage-header {
+  padding: 20px 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.postpage-post-title {
+  font-size: 20 px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.postpage-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.postpage-author-info {
+  display: flex;
+  align-items: center;
+}
+
+.postpage-user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ddd;
+  margin-right: 10px;
+}
+
+.postpage-author-name {
+  font-weight: bold;
+  margin-right: 15px;
+}
+
+.postpage-date {
+  color: #666;
+  font-size: 14px;
+}
+
+.postpage-post-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.postpage-post-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.postpage-btn-edit,
+.postpage-btn-delete {
+  border: 1px solid #aaaaaa;
+  border-radius: 12px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.postpage-btn-edit:hover,
+.postpage-btn-delete:hover {
+  background-color: #e9ecef;
+}
+
+/* 게시글 내용 */
+.postpage-content {
+  padding: 20px 15px;
+  line-height: 1.6;
+}
+
+.postpage-content p {
+  margin-bottom: 15px;
+}
+
+/* 액션 버튼 바 */
+.postpage-actions-bar {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+  margin:auto;
+}
+
+.postpage-actions-btn-wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 70%;
+  margin:auto;
+}
+
+.postpage-action-button {
+  display: flex;
+  flex-direction: column;
+  width: 120px;
+  border-radius: 16px;
+  align-items: center;
+  border: none;
+  padding: 15px 0;
+  cursor: pointer;
+  background-color: #cfcfcf;
+}
+
+.postpage-button-count {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.postpage-button-label {
+  font-size: 16px;
+  font-weight: bold
+}
+
+/* 댓글 입력 */
+.postpage-comment-input-container {
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.postpage-comment-form {
+  display: flex;
+  gap: 10px;
+}
+
+.postpage-comment-input {
+  flex: 1;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  padding: 10px 15px;
+  font-size: 14px;
+}
+
+.postpage-comment-submit {
+  background-color: #ACA0EB;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 0 15px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.postpage-comment-submit:hover {
+  background-color: #7F6AEE;
+}
+
+/* 댓글 목록 */
+.postpage-comments-container {
+  padding: 15px;
+}
+
+.postpage-comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.postpage-comment-item {
+  display: flex;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.postpage-comment-content {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.postpage-comment-author {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.postpage-comment-text {
+  margin-bottom: 5px;
+  line-height: 1.4;
+}
+
+.postpage-comment-meta {
+  font-size: 12px;
+  color: #666;
+}
+
+.postpage-comment-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.postpage-btn-comment-action {
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  font-size: 12px;
+  text-align: right;
+}
+
+/* 새 게시글 폼 */
+.postpage-form-container {
+  padding: 20px 15px;
+}
+
+.postpage-form-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.postpage-form-group {
+  margin-bottom: 15px;
+}
+
+.postpage-title-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.postpage-content-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 14px;
+  resize: vertical;
+}
+
+.postpage-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.postpage-btn-submit {
+  background-color: #7F6AEE;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.postpage-btn-cancel {
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+}

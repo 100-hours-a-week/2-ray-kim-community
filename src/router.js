@@ -1,51 +1,77 @@
-class Router {
-  constructor(routes, container) {
-    this.routes = routes;
-    this.container = container;
-  }
+import Header from "./components/Header.js";
 
-  init() {
-    // 초기 로드와 해시 변경 이벤트에 대한 리스너 설정
-    window.addEventListener('load', () => this.handleRouteChange());
-    window.addEventListener('hashchange', () => this.handleRouteChange());
+const Router = (routes, container) => {
+  // 현재 경로 상태
+  let currentPath = window.location.pathname;
 
-    // 네비게이션 링크에 대한 이벤트 위임
-    document.body.addEventListener('click', (e) => {
-      if (e.target.matches('[data-link]')) {
-        e.preventDefault();
-        this.navigateTo(e.target.getAttribute('href'));
-      }
-    });
-  }
-
-  handleRouteChange() {
-    const hash = window.location.hash.slice(1) || '/';
-    this.renderPage(hash);
-  }
-
-  renderPage(route) {
+  // 페이지 렌더링 함수
+  const renderPage = (pathname) => {
     // 컨테이너 비우기
-    this.container.innerHTML = '';
+    container.innerHTML = '';
+
+    // 헤더 추가
+    const header = Header();
+    container.appendChild(header.render());
+
+    // 콘텐츠 컨테이너 생성
+    const contentContainer = document.createElement('main');
+    contentContainer.id = 'content';
+    container.appendChild(contentContainer);
 
     // 해당 라우트의 페이지 컴포넌트 렌더링
-    const PageComponent = this.routes[route] || this.routes['404'];
-    const page = new PageComponent();
-    this.container.appendChild(page.render());
+    const path = pathname === '/' ? '/' : `/${pathname.split('/')[1]}`;
+    const PageComponent = routes[path] || routes['/'];
+    const page = PageComponent();
+    contentContainer.appendChild(page.render());
 
     // 페이지 초기화 (이벤트 핸들러 등록 등)
     if (typeof page.init === 'function') {
       page.init();
     }
-  }
 
-  renderCurrentPage() {
-    const hash = window.location.hash.slice(1) || '/';
-    this.renderPage(hash);
-  }
+    // 헤더 초기화 (이벤트 핸들러 등록 등)
+    if (typeof header.init === 'function') {
+      header.init();
+    }
+  };
 
-  navigateTo(path) {
-    window.location.hash = path;
-  }
-}
+  // 페이지 이동 함수
+  const navigateTo = (path) => {
+    // 현재 URL과 같다면 무시
+    if (path === currentPath) return;
+
+    // 히스토리 API로 URL 변경
+    window.history.pushState(null, null, path);
+    currentPath = path;
+    renderPage(path);
+  };
+
+  // 라우터 초기화 함수
+  const init = () => {
+    // 초기 로드 시 현재 경로의 페이지 렌더링
+    renderPage(currentPath);
+
+    // 네비게이션 링크에 대한 이벤트 위임
+    document.body.addEventListener('click', (e) => {
+      if (e.target.matches('[data-link]')) {
+        e.preventDefault();
+        navigateTo(e.target.getAttribute('href'));
+      }
+    });
+
+    // 뒤로가기/앞으로가기 처리
+    window.addEventListener('popstate', () => {
+      currentPath = window.location.pathname;
+      renderPage(currentPath);
+    });
+  };
+
+  // 라우터 객체 반환
+  return {
+    init,
+    navigateTo,
+    renderPage
+  };
+};
 
 export default Router;

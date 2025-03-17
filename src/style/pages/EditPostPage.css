@@ -1,0 +1,114 @@
+.editpost-page {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  background-color: #f7f7f7;
+}
+
+.editpost-container {
+  width: 100%;
+  max-width: 35vw;
+  min-width: 500px;
+  min-height: 100vh;
+  background-color: #f7f7f7;
+}
+
+/* 폼 컨테이너 */
+.editpost-form-container {
+  padding: 20px;
+  background-color: #f7f7f7;
+}
+
+.editpost-form-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* 폼 스타일 */
+.editpost-form-group {
+  margin-bottom: 20px;
+}
+
+.editpost-form-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.editpost-required {
+  color: red;
+  margin-left: 2px;
+}
+
+.editpost-form-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+  background-color: white;
+}
+
+.editpost-form-textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+  resize: vertical;
+  min-height: 150px;
+  background-color: white;
+}
+
+.editpost-form-input:focus, 
+.editpost-form-textarea:focus {
+  outline: none;
+  border-color: #7F6AEE;
+}
+
+/* 이미지 업로드 */
+.editpost-image-input-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.editpost-form-input-hidden {
+  display: none;
+}
+
+.editpost-image-button {
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.editpost-image-button-label {
+  color: #888;
+  font-size: 14px;
+}
+
+/* 제출 버튼 */
+.editpost-submit-button {
+  width: 100%;
+  background-color: #7F6AEE;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.editpost-submit-button:hover {
+  background-color: #6A58D3;
+}
