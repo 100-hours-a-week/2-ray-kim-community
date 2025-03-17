@@ -7,6 +7,22 @@ const ProfilePage = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const pageType = urlParams.get('type') || 'profile'; // 'profile' 또는 'password'
 
+  // 프로필 이미지 변경 처리 함수
+  const handleProfileImageChange = (e) => {
+    const fileInput = e.target;
+    if (fileInput.files && fileInput.files[0]) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const profileAvatar = document.querySelector('.profilepage-avatar');
+        if (profileAvatar) {
+          // img 태그의 src 속성을 변경
+          profileAvatar.src = e.target.result;
+        }
+      };
+      reader.readAsDataURL(fileInput.files[0]);
+    }
+  };
+
   // 프로필 폼 제출 처리 함수
   const handleProfileSubmit = (e) => {
     e.preventDefault();
@@ -88,15 +104,20 @@ const ProfilePage = () => {
       if (passwordNavButton) {
         passwordNavButton.addEventListener('click', navigateToPassword);
       }
+
+      // 프로필 이미지 클릭 이벤트
+      const profileAvatar = element.querySelector('.profilepage-avatar');
+      const imageInput = element.querySelector('#profile-userImage');
+      if (profileAvatar && imageInput) {
+        profileAvatar.addEventListener('click', () => {
+          imageInput.click();
+        });
+        imageInput.addEventListener('change', handleProfileImageChange);
+      }
     } else {
       const passwordForm = element.querySelector('#profilepage-password-form');
       if (passwordForm) {
         passwordForm.addEventListener('submit', handlePasswordSubmit);
-      }
-
-      const profileNavButton = element.querySelector('.profilepage-profile-nav');
-      if (profileNavButton) {
-        profileNavButton.addEventListener('click', navigateToProfile);
       }
     }
 
@@ -119,8 +140,8 @@ const ProfilePage = () => {
           <!-- 프로필 이미지 섹션 -->
           <div class="profilepage-image-section">
             <div class="profilepage-image-container">
-              <div class="profilepage-avatar"></div>
-              <p class="profilepage-label">프로필 사진*</p>
+              <img class="profilepage-avatar" alt="프로필이미지변경" src="src/avatar.svg"></img>
+              <input type="file" id="profile-userImage" name="userImage" accept="image/*" style="display: none;">
             </div>
           </div>
           
@@ -169,11 +190,6 @@ const ProfilePage = () => {
             
             <button type="submit" class="profilepage-btn-update">수정하기</button>
           </form>
-          
-          <!-- 회원정보 수정 버튼 -->
-          <div class="profilepage-nav-section">
-            <button class="profilepage-profile-nav">회원정보 수정하기</button>
-          </div>
         </div>
       `;
     }

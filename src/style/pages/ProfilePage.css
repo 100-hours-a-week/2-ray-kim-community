@@ -33,22 +33,46 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
 }
 
 .profilepage-avatar {
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
-  background-color: #ddd;
+  background-color: rgb(202, 201, 201);
+  cursor: pointer;
   margin-bottom: 10px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23999'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z'/%3E%3C/svg%3E");
-  background-position: center;
-  background-repeat: no-repeat;
+  object-fit: cover;
+  transition: all 0.3s ease;
 }
 
-.profilepage-label {
+/* 이미지 호버 효과를 위한 가상 요소 */
+.profilepage-image-container::after {
+  content: '변경';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
   font-size: 14px;
-  color: #666;
+  opacity: 0;
+  border: 1px solid white;
+  border-radius: 12px;
+  padding: 6px;
+  color: white;
+  font-weight: bold;
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.profilepage-image-container:hover::after {
+  opacity: 1;
+}
+
+.profilepage-image-container:hover .profilepage-avatar {
+  filter: brightness(0.8);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
 }
 
 /* 폼 스타일 */
