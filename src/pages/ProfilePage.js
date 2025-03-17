@@ -1,3 +1,5 @@
+import { api } from "../services/api.js";
+
 const ProfilePage = () => {
   // DOM 요소 생성
   const element = document.createElement('div');
@@ -7,44 +9,65 @@ const ProfilePage = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const pageType = urlParams.get('type') || 'profile'; // 'profile' 또는 'password'
 
+  // 사용자 데이터
+  let userData = null;
+
   // 프로필 이미지 변경 처리 함수
-  const handleProfileImageChange = (e) => {
+  const handleProfileImageChange = async (e) => {
     const fileInput = e.target;
     if (fileInput.files && fileInput.files[0]) {
+      const file = fileInput.files[0];
       const reader = new FileReader();
-      reader.onload = (e) => {
+
+      reader.onload = async (e) => {
         const profileAvatar = document.querySelector('.profilepage-avatar');
         if (profileAvatar) {
           // img 태그의 src 속성을 변경
           profileAvatar.src = e.target.result;
+
+          try {
+            // API 호출하여 프로필 이미지 업데이트
+            await api.updateProfileImage(file);
+          } catch (error) {
+            console.error('프로필 이미지 업데이트 오류:', error);
+            alert('프로필 이미지 업데이트 중 오류가 발생했습니다.');
+          }
         }
       };
-      reader.readAsDataURL(fileInput.files[0]);
+
+      reader.readAsDataURL(file);
     }
   };
 
   // 프로필 폼 제출 처리 함수
-  const handleProfileSubmit = (e) => {
+  const handleProfileSubmit = async (e) => {
     e.preventDefault();
 
     // 폼 데이터 수집
     const nameInput = document.getElementById('profile-userName');
 
-    // 실제 애플리케이션에서는 여기에 API 호출하여 프로필 업데이트
-    console.log('프로필 업데이트:', {
-      name: nameInput.value
-    });
+    try {
+      // API 호출하여 프로필 업데이트
+      const profileData = {
+        nickname: nameInput.value
+      };
 
-    // 성공 메시지 표시
-    alert('프로필이 성공적으로 업데이트되었습니다.');
+      await api.updateProfile(profileData);
 
-    // 게시판 페이지로 리다이렉트
-    window.history.pushState(null, null, '/board');
-    window.dispatchEvent(new PopStateEvent('popstate'));
+      // 성공 메시지 표시
+      alert('프로필이 성공적으로 업데이트되었습니다.');
+
+      // 게시판 페이지로 리다이렉트
+      window.history.pushState(null, null, '/board');
+      window.dispatchEvent(new PopStateEvent('popstate'));
+    } catch (error) {
+      console.error('프로필 업데이트 오류:', error);
+      alert('프로필 업데이트 중 오류가 발생했습니다.');
+    }
   };
 
   // 비밀번호 폼 제출 처리 함수
-  const handlePasswordSubmit = (e) => {
+  const handlePasswordSubmit = async (e) => {
     e.preventDefault();
 
     // 폼 데이터 수집
@@ -57,26 +80,38 @@ const ProfilePage = () => {
       return;
     }
 
-    // 실제 애플리케이션에서는 여기에 API 호출하여 비밀번호 업데이트
-    console.log('비밀번호 업데이트됨');
+    try {
+      // API 호출하여 비밀번호 업데이트
+      await api.updatePassword(null, passwordInput.value);
 
-    // 성공 메시지 표시
-    alert('비밀번호가 성공적으로 변경되었습니다.');
+      // 성공 메시지 표시
+      alert('비밀번호가 성공적으로 변경되었습니다.');
 
-    // 게시판 페이지로 리다이렉트
-    window.history.pushState(null, null, '/board');
-    window.dispatchEvent(new PopStateEvent('popstate'));
+      // 게시판 페이지로 리다이렉트
+      window.history.pushState(null, null, '/board');
+      window.dispatchEvent(new PopStateEvent('popstate'));
+    } catch (error) {
+      console.error('비밀번호 업데이트 오류:', error);
+      alert('비밀번호 업데이트 중 오류가 발생했습니다.');
+    }
   };
 
   // 회원 탈퇴 처리 함수
-  const handleWithdrawal = () => {
+  const handleWithdrawal = async () => {
     if (confirm('정말로 탈퇴하시겠습니까? 이 작업은 되돌릴 수 없습니다.')) {
-      // 실제 애플리케이션에서는 여기에 API 호출하여 회원 탈퇴 처리
-      alert('회원 탈퇴가 처리되었습니다.');
+      try {
+        // API 호출하여 회원 탈퇴
+        await api.deleteAccount();
 
-      // 로그인 페이지로 리다이렉트
-      window.history.pushState(null, null, '/login');
-      window.dispatchEvent(new PopStateEvent('popstate'));
+        alert('회원 탈퇴가 처리되었습니다.');
+
+        // 로그인 페이지로 리다이렉트
+        window.history.pushState(null, null, '/login');
+        window.dispatchEvent(new PopStateEvent('popstate'));
+      } catch (error) {
+        console.error('회원 탈퇴 오류:', error);
+        alert('회원 탈퇴 중 오류가 발생했습니다.');
+      }
     }
   };
 
@@ -92,17 +127,41 @@ const ProfilePage = () => {
     window.dispatchEvent(new PopStateEvent('popstate'));
   };
 
+  // 사용자 프로필 데이터 가져오기
+  const fetchUserProfile = async () => {
+    try {
+      const response = await api.getProfile();
+      userData = response.data;
+
+      // 프로필 페이지에서 사용자 데이터 적용
+      if (pageType === 'profile') {
+        const emailField = document.getElementById('profile-userEmail');
+        const nameField = document.getElementById('profile-userName');
+        const avatarImg = document.querySelector('.profilepage-avatar');
+
+        if (emailField && nameField && userData) {
+          emailField.value = userData.email || '';
+          nameField.value = userData.nickname || '';
+
+          if (avatarImg && userData.profile_image) {
+            avatarImg.src = userData.profile_image;
+          }
+        }
+      }
+    } catch (error) {
+      console.error('사용자 프로필 조회 오류:', error);
+    }
+  };
+
   // 이벤트 리스너 등록 함수
-  const init = () => {
+  const init = async () => {
+    // 사용자 데이터 가져오기
+    await fetchUserProfile();
+
     if (pageType === 'profile') {
       const profileForm = element.querySelector('#profilepage-form');
       if (profileForm) {
         profileForm.addEventListener('submit', handleProfileSubmit);
-      }
-
-      const passwordNavButton = element.querySelector('.profilepage-password-nav');
-      if (passwordNavButton) {
-        passwordNavButton.addEventListener('click', navigateToPassword);
       }
 
       // 프로필 이미지 클릭 이벤트
@@ -114,10 +173,22 @@ const ProfilePage = () => {
         });
         imageInput.addEventListener('change', handleProfileImageChange);
       }
+
+      // 비밀번호 버튼 이벤트
+      const passwordBtn = element.querySelector('.profilepage-password-btn');
+      if (passwordBtn) {
+        passwordBtn.addEventListener('click', navigateToPassword);
+      }
     } else {
       const passwordForm = element.querySelector('#profilepage-password-form');
       if (passwordForm) {
         passwordForm.addEventListener('submit', handlePasswordSubmit);
+      }
+
+      // 프로필 버튼 이벤트
+      const profileBtn = element.querySelector('.profilepage-profile-btn');
+      if (profileBtn) {
+        profileBtn.addEventListener('click', navigateToProfile);
       }
     }
 
@@ -127,7 +198,7 @@ const ProfilePage = () => {
     }
   };
 
-  // 렌더링 함수
+
   const render = () => {
     // 회원정보수정 페이지
     if (pageType === 'profile') {
@@ -140,7 +211,7 @@ const ProfilePage = () => {
           <!-- 프로필 이미지 섹션 -->
           <div class="profilepage-image-section">
             <div class="profilepage-image-container">
-              <img class="profilepage-avatar" alt="프로필이미지변경" src="src/avatar.svg"></img>
+              <img class="profilepage-avatar" alt="프로필이미지변경" src="public/images/avatar.svg"></img>
               <input type="file" id="profile-userImage" name="userImage" accept="image/*" style="display: none;">
             </div>
           </div>
@@ -149,16 +220,21 @@ const ProfilePage = () => {
           <form id="profilepage-form">
             <div class="profilepage-form-group">
               <label for="profile-userEmail">이메일</label>
-              <input type="email" id="profile-userEmail" name="userEmail" value="startupcoder@gmail.com" disabled>
+              <input type="email" id="profile-userEmail" name="userEmail" disabled>
             </div>
             
             <div class="profilepage-form-group"> 
               <label for="profile-userName">닉네임</label>
-              <input type="text" id="profile-userName" name="userName" placeholder="스타트업코드" required>
+              <input type="text" id="profile-userName" name="userName" placeholder="닉네임을 입력하세요" required>
             </div>
             
             <button type="submit" class="profilepage-btn-update">수정하기</button>
           </form>
+          
+          <!-- 비밀번호 수정 버튼 -->
+          <div class="profilepage-nav-section">
+            <button class="profilepage-password-btn">비밀번호 변경</button>
+          </div>
           
           <!-- 회원 탈퇴 버튼 -->
           <div class="profilepage-withdrawal-section">
@@ -190,6 +266,11 @@ const ProfilePage = () => {
             
             <button type="submit" class="profilepage-btn-update">수정하기</button>
           </form>
+          
+          <!-- 프로필 수정 버튼 -->
+          <div class="profilepage-nav-section">
+            <button class="profilepage-profile-btn">프로필 정보 변경</button>
+          </div>
         </div>
       `;
     }

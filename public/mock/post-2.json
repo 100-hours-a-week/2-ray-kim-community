@@ -1,0 +1,29 @@
+{
+  "message": "success",
+  "data": {
+    "id": 2,
+    "title": "안녕하세요, 반갑습니다!",
+    "content": "여러분 안녕하세요!\n\n이 커뮤니티에 가입하게 되어 정말 기쁩니다.\n\n함께 좋은 이야기 나눠봐요.",
+    "author": {
+      "id": 2,
+      "nickname": "작성자2",
+      "profile_image": "public/images/avatar.svg"
+    },
+    "date": "2025-03-02",
+    "likes": 24,
+    "comments": 5,
+    "views": 32,
+    "comments_data": [
+      {
+        "id": 3,
+        "content": "환영합니다!",
+        "author": {
+          "id": 1,
+          "nickname": "댓글 작성자3",
+          "profile_image": "public/images/avatar.svg"
+        },
+        "date": "2025-03-02"
+      }
+    ]
+  }
+}

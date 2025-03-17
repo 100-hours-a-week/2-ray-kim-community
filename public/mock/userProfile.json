@@ -1,0 +1,10 @@
+{
+  "message": "success",
+  "data": {
+    "user_id": 1,
+    "email": "startupcoder@gmail.com",
+    "nickname": "스타트업코드",
+    "profile_image": "public/images/avatar.svg",
+    "created_at": "2025-01-01T00:00:00Z"
+  }
+}

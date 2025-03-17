@@ -1,7 +1,12 @@
+import { api } from "../services/api.js";
+
 const Header = () => {
   // DOM 요소 생성
   const element = document.createElement('header');
   element.className = 'header-component';
+
+  // 사용자 데이터
+  let userData = null;
 
   // 뒤로가기 버튼 클릭 처리 함수
   const handleBackClick = (e) => {
@@ -60,12 +65,22 @@ const Header = () => {
   };
 
   // 로그아웃 처리 함수
-  const handleLogout = (e) => {
+  const handleLogout = async (e) => {
     e.preventDefault();
     e.stopPropagation();
-    // 실제 구현에서는 세션/토큰 제거 등의 로직이 필요
-    window.history.pushState(null, null, '/login');
-    window.dispatchEvent(new PopStateEvent('popstate'));
+
+    try {
+      // API 호출하여 로그아웃
+      await api.logout();
+
+      // 로그인 페이지로 리다이렉트
+      window.history.pushState(null, null, '/login');
+      window.dispatchEvent(new PopStateEvent('popstate'));
+    } catch (error) {
+      console.error('로그아웃 오류:', error);
+      alert('로그아웃 중 오류가 발생했습니다.');
+    }
+
     // 메뉴 닫기
     const menuDropdown = element.querySelector('.header-menu-dropdown');
     if (menuDropdown) {
@@ -73,8 +88,29 @@ const Header = () => {
     }
   };
 
+  // 사용자 프로필 가져오기
+  const fetchUserProfile = async () => {
+    if (api.isAuthenticated()) {
+      try {
+        const response = await api.getProfile();
+        userData = response.data;
+
+        // 프로필 이미지 업데이트
+        const profileImage = element.querySelector('.user-profile');
+        if (profileImage && userData && userData.profile_image) {
+          profileImage.src = userData.profile_image;
+        }
+      } catch (error) {
+        console.error('사용자 프로필 조회 오류:', error);
+      }
+    }
+  };
+
   // 이벤트 리스너 등록 함수
-  const init = () => {
+  const init = async () => {
+    // 사용자 프로필 가져오기
+    await fetchUserProfile();
+
     const backButton = element.querySelector('.header-back-button');
     if (backButton) {
       backButton.addEventListener('click', handleBackClick);
@@ -116,7 +152,8 @@ const Header = () => {
 
   const render = () => {
     const isPostPage = window.location.pathname === '/post' || window.location.pathname.includes('/post');
-    const isNotLoginPage = window.location.pathname !== '/' && window.location.pathname !== '/login';
+    const isNotLoginPage = window.location.pathname !== '/' && window.location.pathname !== '/login' && window.location.pathname !== '/signup';
+    const isAuthenticated = api.isAuthenticated();
 
     element.innerHTML = `
       <div class="header-container">
@@ -132,12 +169,13 @@ const Header = () => {
             아무 말 대잔치
           </h1>
           ${isPostPage ? '<div class="header-spacer"></div>' : ''}
-          ${isNotLoginPage ? `
+          ${isNotLoginPage && isAuthenticated ? `
             <div class="header-profile-container">
-              <img class="user-profile" alt="avatar" src="src/avatar.svg" />
+              <img class="user-profile" alt="avatar" src="public/images/avatar.svg" />
               <div class="header-menu-dropdown">
                 <div class="menu-item" data-action="profile">회원정보수정</div>
                 <div class="menu-item" data-action="password">비밀번호수정</div>
+                <div class="menu-item" data-action="board">게시판</div>
                 <div class="menu-item" data-action="logout">로그아웃</div>
               </div>
             </div>

@@ -1,75 +1,83 @@
-import { postItems } from "../constants/response.js";
+import { api } from "../services/api.js";
 
 const CreatePostPage = () => {
   // DOM 요소 생성
   const element = document.createElement('div');
   element.className = 'createpost-page';
 
+  // 이미지 파일 저장
+  let imageFile = null;
+
+  // 게시글 생성 처리
+  const handleCreatePost = async (e) => {
+    e.preventDefault();
+
+    const titleInput = document.getElementById('post-title');
+    const contentInput = document.getElementById('post-content');
+
+    // 간단한 유효성 검사
+    if (!titleInput.value || !contentInput.value) {
+      alert('제목과 내용을 모두 입력해주세요.');
+      return;
+    }
+
+    // 게시글 데이터 준비
+    const postData = {
+      title: titleInput.value,
+      content: contentInput.value,
+      image: imageFile
+    };
+
+    try {
+      // API 호출
+      await api.createPost(postData);
+
+      alert('게시글이 성공적으로 등록되었습니다.');
+      window.history.pushState(null, null, '/board');
+      window.dispatchEvent(new PopStateEvent('popstate'));
+    } catch (error) {
+      console.error('게시글 등록 오류:', error);
+      alert('게시글 등록 중 오류가 발생했습니다.');
+    }
+  };
+
+  // 이미지 업로드 처리
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // 이미지 파일 저장
+      imageFile = file;
+
+      // 파일명 표시
+      const imageLabel = element.querySelector('.createpost-image-button-label');
+      if (imageLabel) {
+        imageLabel.textContent = file.name;
+      }
+    }
+  };
+
   // 이벤트 리스너 등록 함수
   const init = () => {
     // 폼 제출 이벤트 리스너
     const form = element.querySelector('#create-post-form');
     if (form) {
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        const titleInput = form.querySelector('#post-title');
-        const contentInput = form.querySelector('#post-content');
-        const imageInput = form.querySelector('#image-tags');
-
-        // 간단한 유효성 검사
-        if (!titleInput.value || !contentInput.value) {
-          alert('제목과 내용을 모두 입력해주세요.');
-          return;
-        }
-
-        // 새 게시글 ID 생성 (기존 게시글 중 가장 큰 ID + 1)
-        const newId = postItems.length > 0
-          ? Math.max(...postItems.map(post => post.id)) + 1
-          : 1;
-
-        // 새 게시글 객체 생성
-        const newPost = {
-          id: newId,
-          title: titleInput.value,
-          content: contentInput.value,
-          author: '작성자', // 실제 앱에서는 로그인한 사용자 정보 사용
-          date: new Date().toISOString().split('T')[0], // YYYY-MM-DD 형식
-          likes: 0,
-          comments: 0,
-          views: 0
-        };
-
-        // 게시글 목록에 추가
-        postItems.unshift(newPost);
-
-        // 게시글 작성 후 게시판 페이지로 이동
-        window.history.pushState(null, null, '/board');
-        window.dispatchEvent(new PopStateEvent('popstate'));
-      });
+      form.addEventListener('submit', handleCreatePost);
     }
 
     // 이미지 업로드 버튼 이벤트 리스너
     const imageButton = element.querySelector('.createpost-image-button');
     const imageInput = element.querySelector('#image-tags');
-    const imageLabel = element.querySelector('.createpost-image-button-label');
 
     if (imageButton && imageInput) {
       imageButton.addEventListener('click', () => {
         imageInput.click();
       });
 
-      imageInput.addEventListener('change', () => {
-        if (imageInput.files.length > 0) {
-          imageLabel.textContent = imageInput.files[0].name;
-        } else {
-          imageLabel.textContent = '파일을 선택해주세요';
-        }
-      });
+      imageInput.addEventListener('change', handleImageUpload);
     }
   };
 
-  // 렌더링 함수
+
   const render = () => {
     element.innerHTML = `
       <div class="createpost-container">
@@ -110,7 +118,6 @@ const CreatePostPage = () => {
             </div>
             
             <button type="submit" class="createpost-submit-button">등록하기</button>
-        
           </form>
         </div>
       </div>
