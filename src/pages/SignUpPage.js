@@ -113,7 +113,7 @@ const SignUpPage = () => {
           
           <div class="signup-form-group">
             <label class="signup-form-label" for="userName">이메일<span class="signup-required">*</span></label>
-            <input type="text" id="userName" class="signup-form-input" placeholder="이메일을 입력하세요">
+            <input type="email" id="userName" class="signup-form-input" placeholder="이메일을 입력하세요">
           </div>
           
           <div class="signup-form-group">
@@ -128,7 +128,7 @@ const SignUpPage = () => {
           
           <div class="signup-form-group">
             <label class="signup-form-label" for="userEmail">닉네임<span class="signup-required">*</span></label>
-            <input type="email" id="userEmail" class="signup-form-input" placeholder="닉네임을 입력하세요.">
+            <input type="text" id="userEmail" class="signup-form-input" placeholder="닉네임을 입력하세요.">
           </div>
           
           <button type="submit" class="signup-btn">회원가입</button>

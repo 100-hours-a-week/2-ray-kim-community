@@ -1,4 +1,4 @@
-const API_BASE_URL = '개발 전';
+const API_BASE_URL = 'http://localhost:8080';
 
 const MOCK_DELAY = 300;
 
@@ -32,7 +32,7 @@ async function loadMockData(filename) {
 // 모의 데이터와 실제 API 호출을 처리하는 함수
 async function apiRequest(endpoint, options = {}) {
   // 개발 환경에서는 모의 데이터 사용
-  if (true) { // 개발 환경 체크 로직 (지금은 항상 모의 데이터 사용)
+  if (false) { // 개발 환경 체크 로직 (지금은 항상 모의 데이터 사용)
     // 지연 시간 시뮬레이션
     await new Promise(resolve => setTimeout(resolve, MOCK_DELAY));
 
@@ -52,7 +52,7 @@ async function apiRequest(endpoint, options = {}) {
     else if (endpoint === '/api/users/profile') {
       return loadMockData('userProfile');
     }
-    else if (endpoint === '/api/users/login') {
+    else if (endpoint === '/api/auth/login') {
       // 로그인 처리
       const body = JSON.parse(options.body || '{}');
       if (body.email && body.password) {
@@ -64,7 +64,7 @@ async function apiRequest(endpoint, options = {}) {
       }
       return { message: "invalid_credentials", data: null };
     }
-    else if (endpoint === '/api/users/signup') {
+    else if (endpoint === '/api/auth/signup') {
       // 회원가입 처리
       const authData = await loadMockData('auth');
       return authData.signup;
@@ -110,7 +110,7 @@ let currentUser = null;
 export const api = {
   // 인증 관련 API
   login: async (email, password) => {
-    const data = await apiRequest('/api/users/login', {
+    const data = await apiRequest('/api/auth/login', {
       method: 'POST',
       body: JSON.stringify({ email, password })
     });
@@ -126,7 +126,7 @@ export const api = {
   },
 
   signup: async (userData) => {
-    return apiRequest('/api/users/signup', {
+    return apiRequest('/api/auth/signup', {
       method: 'POST',
       body: JSON.stringify(userData)
     });
