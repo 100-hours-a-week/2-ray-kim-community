@@ -91,7 +91,6 @@ async function apiRequest(endpoint, options = {}) {
       ...options,
       headers
     });
-    console.log(response);
 
     if (!response.ok) {
       throw new Error('API 요청이 실패했습니다.');
@@ -104,9 +103,6 @@ async function apiRequest(endpoint, options = {}) {
   }
 }
 
-// 현재 사용자 정보 저장
-let currentUser = null;
-
 // API 함수들 내보내기
 export const api = {
   // 인증 관련 API
@@ -115,13 +111,6 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ email, password })
     });
-
-    if (data.message === 'login_success') {
-      currentUser = {
-        id: data.data.user_id,
-        nickname: data.data.nickname
-      };
-    }
 
     return data;
   },
@@ -135,7 +124,6 @@ export const api = {
 
   logout: () => {
     removeToken();
-    currentUser = null;
     return Promise.resolve({ message: "logout_success", data: null });
   },
 
@@ -241,10 +229,6 @@ export const api = {
   isAuthenticated: () => {
     return !!getToken();
   },
-
-  getCurrentUser: () => {
-    return currentUser;
-  }
 };
 
 export default api;

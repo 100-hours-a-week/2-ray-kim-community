@@ -44,16 +44,14 @@ const BoardPage = () => {
     }
   };
 
-
   const render = () => {
-    // 현재 로그인한 사용자 정보 가져오기
-    const currentUser = api.getCurrentUser();
-    const greeting = currentUser ? `안녕하세요, ${currentUser.nickname}님` : '안녕하세요';
+    const profile = api.getProfile();
+    console.log(profile);
 
     element.innerHTML = `
       <div class="board-container">
         <div class="board-title-wrapper">
-          <p class="board-container-title">${greeting}<br></p>
+          <p class="board-container-title">안녕하세요, ${profile.nickname}님<br></p>
           <p class="board-container-title">아무 말 대잔치 <span class="bold">게시판</span> 입니다.</p>
         </div>
         <button class="btn-create-post">게시글 작성</button>
