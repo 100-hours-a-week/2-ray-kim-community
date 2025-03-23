@@ -6,7 +6,7 @@ const Post = (postData) => {
 
   // 게시글 클릭 처리 함수
   const handlePostClick = () => {
-    window.history.pushState(null, null, `/post?id=${postData.id}`);
+    window.history.pushState(null, null, `/posts/${postData.id}`);
     window.dispatchEvent(new PopStateEvent('popstate'));
   };
 
@@ -17,17 +17,17 @@ const Post = (postData) => {
 
 
   const render = () => {
-    // 작성자 정보 가져오기
     const author = postData.author || {};
     const authorName = author.nickname || author.name || '익명';
     const avatarUrl = author.profile_image || 'public/images/avatar.svg';
 
-    // 날짜 포맷팅
-    const date = postData.date ? new Date(postData.date) : new Date();
-    const formattedDate = typeof postData.date === 'string'
-      ? postData.date.split(' ')[0] // 이미 포맷된 날짜면 그대로 사용
-      : `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-
+    // 날짜 포맷팅 - author.createdAt 우선 사용, 없으면 postData.date 사용
+    let formattedDate;
+    if (author.createdAt) {
+      formattedDate = formatDate(author.createdAt);
+    } else {
+      formattedDate = formatDate(postData.date);
+    }
     // innerHTML 방식으로 구현
     element.innerHTML = `
         <div class="post-container">

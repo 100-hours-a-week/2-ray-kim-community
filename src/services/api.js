@@ -7,7 +7,7 @@ const getToken = () => {
   return localStorage.getItem('token');
 };
 
-const setToken = (token) => {
+export const setToken = (token) => {
   localStorage.setItem('token', token);
 };
 
@@ -91,6 +91,7 @@ async function apiRequest(endpoint, options = {}) {
       ...options,
       headers
     });
+    console.log(response);
 
     if (!response.ok) {
       throw new Error('API 요청이 실패했습니다.');
@@ -126,7 +127,7 @@ export const api = {
   },
 
   signup: async (userData) => {
-    return apiRequest('/api/auth/signup', {
+    return apiRequest('/api/auth', {
       method: 'POST',
       body: JSON.stringify(userData)
     });
@@ -140,21 +141,20 @@ export const api = {
 
   // 사용자 관련 API
   getProfile: () => {
-    return apiRequest('/api/users/profile');
+    return apiRequest('/api/users');
   },
 
   updateProfile: (profileData) => {
-    return apiRequest('/api/users/profile', {
+    return apiRequest('/api/users', {
       method: 'PUT',
       body: JSON.stringify(profileData)
     });
   },
 
   updateProfileImage: (imageFile) => {
-    // 실제로는 FormData를 사용하지만 모의 데이터에서는 간단하게 처리
     return apiRequest('/api/users/profile/image', {
       method: 'PUT',
-      body: JSON.stringify({ profile_image: 'public/images/avatar.svg' })
+      body: JSON.stringify({ profile_image: imageFile })
     });
   },
 
@@ -178,6 +178,10 @@ export const api = {
 
   getPost: (id) => {
     return apiRequest(`/api/posts/${id}`);
+  },
+
+  getPopularPosts: (page = 1, limit = 10) => {
+    return apiRequest(`/api/posts/popular?page=${page}&limit=${limit}`)
   },
 
   createPost: (postData) => {
@@ -214,18 +218,18 @@ export const api = {
 
   // 댓글 관련 API
   createComment: (postId, content) => {
-    return apiRequest(`/api/posts/${postId}/comments`, {
+    return apiRequest(`/api/comments/${postId}`, {
       method: 'POST',
       body: JSON.stringify({ content })
     });
   },
 
-  updateComment: (id, content) => {
-    return apiRequest(`/api/comments/${id}`, {
-      method: 'PUT',
-      body: JSON.stringify({ content })
-    });
-  },
+  // updateComment: (id, content) => {
+  //   return apiRequest(`/api/comments/${id}`, {
+  //     method: 'PUT',
+  //     body: JSON.stringify({ content })
+  //   });
+  // },
 
   deleteComment: (id) => {
     return apiRequest(`/api/comments/${id}`, {

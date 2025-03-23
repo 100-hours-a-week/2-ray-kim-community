@@ -1,4 +1,4 @@
-import { api } from "../services/api.js";
+import { api, setToken } from "../services/api.js";
 
 const LoginPage = () => {
   // DOM 요소 생성
@@ -16,6 +16,8 @@ const LoginPage = () => {
     try {
       // 로그인 API 호출
       const response = await api.login(email, password);
+
+      setToken(response.data.token);
 
       // 게시판 페이지로 이동
       window.history.pushState(null, null, '/board');
