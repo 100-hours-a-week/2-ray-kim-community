@@ -157,7 +157,7 @@ export const api = {
   },
 
   // 게시글 관련 API
-  getPosts: (page = 1, limit = 10) => {
+  getPosts: (page = 0, limit = 10) => {
     return apiRequest(`/api/posts?page=${page}&limit=${limit}`);
   },
 

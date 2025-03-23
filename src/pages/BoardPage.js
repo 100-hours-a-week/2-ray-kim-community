@@ -12,11 +12,22 @@ const BoardPage = () => {
   const renderPosts = async (container) => {
     try {
       const response = await api.getPosts();
+      console.log("API 응답:", response); // 응답 전체 확인
 
       container.innerHTML = '';
 
+      // 데이터 구조 확인
       const posts = response.data.posts;
+      console.log("게시글 데이터:", posts); // posts 배열 확인
+
+      if (!posts || !Array.isArray(posts)) {
+        console.error('게시글 데이터가 배열이 아닙니다:', posts);
+        container.innerHTML = '<p>게시글 데이터 형식이 올바르지 않습니다.</p>';
+        return;
+      }
+
       posts.forEach(postData => {
+        console.log("게시글 항목:", postData); // 각 게시글 데이터 확인
         const postComponent = Post(postData);
         container.appendChild(postComponent.render());
       });
