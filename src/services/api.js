@@ -32,11 +32,9 @@ async function loadMockData(filename) {
 // 모의 데이터와 실제 API 호출을 처리하는 함수
 async function apiRequest(endpoint, options = {}) {
   // 개발 환경에서는 모의 데이터 사용
-  if (false) { // 개발 환경 체크 로직 (지금은 항상 모의 데이터 사용)
-    // 지연 시간 시뮬레이션
+  if (false) {
     await new Promise(resolve => setTimeout(resolve, MOCK_DELAY));
 
-    // 엔드포인트별 모의 응답 처리
     if (endpoint.startsWith('/api/posts') && !endpoint.match(/^\/api\/posts\/\d+/)) {
       return loadMockData('posts');
     }
@@ -103,7 +101,6 @@ async function apiRequest(endpoint, options = {}) {
   }
 }
 
-// API 함수들 내보내기
 export const api = {
   // 인증 관련 API
   login: async (email, password) => {

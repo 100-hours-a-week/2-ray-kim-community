@@ -5,15 +5,16 @@ const BoardPage = () => {
   const element = document.createElement('div');
   element.className = 'board-page';
 
+  // 사용자 데이터 저장 변수
+  let userData = null;
+
   // 게시글 목록 렌더링 함수
   const renderPosts = async (container) => {
     try {
-      // API에서 게시글 데이터 가져오기
       const response = await api.getPosts();
 
       container.innerHTML = '';
 
-      // 각 게시글마다 Post 컴포넌트 생성 및 추가
       const posts = response.data.posts;
       posts.forEach(postData => {
         const postComponent = Post(postData);
@@ -25,14 +26,34 @@ const BoardPage = () => {
     }
   };
 
+  // 사용자 프로필 가져오기
+  const fetchUserProfile = async () => {
+    try {
+      const response = await api.getProfile();
+      userData = response.data;
+
+      // 닉네임 업데이트
+      const titleElement = element.querySelector('.user-nickname');
+      if (titleElement && userData && userData.nickname) {
+        titleElement.textContent = userData.nickname;
+      }
+    } catch (error) {
+      console.error('사용자 프로필 조회 오류:', error);
+    }
+  };
+
   // 게시글 작성 버튼 클릭 처리
   const handleCreatePost = () => {
     window.history.pushState(null, null, '/post-create');
     window.dispatchEvent(new PopStateEvent('popstate'));
   };
 
+
   // 이벤트 리스너 등록 함수
-  const init = () => {
+  const init = async () => {
+    // 먼저 사용자 정보 가져오\
+    await fetchUserProfile();
+
     const postsContainer = element.querySelector('#posts-container');
     if (postsContainer) {
       renderPosts(postsContainer);
@@ -45,13 +66,10 @@ const BoardPage = () => {
   };
 
   const render = () => {
-    const profile = api.getProfile();
-    console.log(profile);
-
     element.innerHTML = `
       <div class="board-container">
         <div class="board-title-wrapper">
-          <p class="board-container-title">안녕하세요, ${profile.nickname}님<br></p>
+          <p class="board-container-title">안녕하세요, <span class="user-nickname">사용자</span>님<br></p>
           <p class="board-container-title">아무 말 대잔치 <span class="bold">게시판</span> 입니다.</p>
         </div>
         <button class="btn-create-post">게시글 작성</button>
