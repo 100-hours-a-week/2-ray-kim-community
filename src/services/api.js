@@ -1,6 +1,4 @@
-const API_BASE_URL = 'http://localhost:8080';
-
-const MOCK_DELAY = 300;
+import { API_BASE_URL, MOCK_DELAY } from "../constants/api";
 
 // 인증 토큰 관리
 const getToken = () => {
