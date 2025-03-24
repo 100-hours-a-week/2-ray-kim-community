@@ -1,3 +1,4 @@
+import Comment from "../components/Comment.js";
 import { api } from "../services/api.js";
 
 const PostPage = () => {
@@ -79,11 +80,10 @@ const PostPage = () => {
   const fetchPostAndRender = async () => {
     try {
       const response = await api.getPost(postId);
-      post = response.data;
-      renderPost();
+      renderPost(response.data);
       attachEventListeners();
-    } catch (err) {
-      console.error('게시글 조회 오류:', err);
+    } catch (error) {
+      console.error('게시글 조회 오류:', error);
       element.innerHTML = `
         <div class="postpage-container">
           <p>게시글을 불러오는 중 오류가 발생했습니다.</p>
@@ -101,28 +101,46 @@ const PostPage = () => {
     }
   };
 
+  const fetchCommentsAndRender = async () => {
+    try {
+      const response = await api.getComments(postId);
+      const commentsHTML = response.data && response.data.length
+        ? response.data.map(comment => Comment(comment)).join('')
+        : '<p>댓글이 없습니다. 첫 댓글을 작성해보세요!</p>';
+
+      const commentsContainer = element.querySelector('postpage-comments-container');
+      commentsContainer.innerHTML = commentsHTML;
+    } catch (error) {
+      console.error('댓글 조회 오류', error);
+    }
+  }
+
+  // 이벤트 리스너 연결
+  const attachEventListeners = () => {
+    const editButton = element.querySelector('.postpage-btn-edit');
+    if (editButton) {
+      editButton.addEventListener('click', handleEditPostClick);
+    }
+
+    const deleteButton = element.querySelector('.postpage-btn-delete');
+    if (deleteButton) {
+      deleteButton.addEventListener('click', handleDeletePost);
+    }
+
+    const likeButton = element.querySelector('[data-type="like"]');
+    if (likeButton) {
+      likeButton.addEventListener('click', handleLikePost);
+    }
+
+    const commentForm = element.querySelector('.postpage-comment-form');
+    if (commentForm) {
+      commentForm.addEventListener('submit', handleAddComment);
+    }
+  };
+
   // 게시글 내용 렌더링
-  const renderPost = () => {
-    if (!post) return;
-
-    // 현재 사용자 정보
-    const currentUser = api.getCurrentUser();
-    const isAuthor = currentUser && post.author.id === currentUser.id;
-
-    // 댓글 HTML 생성
-    const commentsHTML = post.comments_data && post.comments_data.length
-      ? post.comments_data.map(comment => `
-        <div class="postpage-comment-item">
-          <div class="postpage-user-avatar" style="background-image: url('${comment.author.profile_image}')"></div>
-          <div class="postpage-comment-content">
-            <div class="postpage-comment-author">${comment.author.nickname}</div>
-            <div class="postpage-comment-text">${comment.content}</div>
-            <div class="postpage-comment-meta">${comment.date}</div>
-          </div>
-        </div>
-      `).join('')
-      : '<p>댓글이 없습니다. 첫 댓글을 작성해보세요!</p>';
-
+  const renderPost = (post) => {
+    console.log(post);
     element.innerHTML = `
       <div class="postpage-container">        
         <!-- 게시글 헤더 -->
@@ -134,7 +152,7 @@ const PostPage = () => {
               <span class="postpage-author-name">${post.author.nickname}</span>
               <span class="postpage-date">${post.date}</span>
             </div>
-            ${isAuthor ? `
+            ${post.author.id ? `
             <div class="postpage-post-actions">
               <button class="postpage-btn-edit">수정</button>
               <button class="postpage-btn-delete">삭제</button>
@@ -173,43 +191,18 @@ const PostPage = () => {
             <button type="submit" class="postpage-comment-submit">댓글 등록</button>
           </form>
         </div>
-        
         <!-- 댓글 목록 -->
         <div class="postpage-comments-container">
-          <div class="postpage-comments-list">
-            ${commentsHTML}
-          </div>
         </div>
       </div>
     `;
   };
 
-  // 이벤트 리스너 연결
-  const attachEventListeners = () => {
-    const editButton = element.querySelector('.postpage-btn-edit');
-    if (editButton) {
-      editButton.addEventListener('click', handleEditPostClick);
-    }
-
-    const deleteButton = element.querySelector('.postpage-btn-delete');
-    if (deleteButton) {
-      deleteButton.addEventListener('click', handleDeletePost);
-    }
-
-    const likeButton = element.querySelector('[data-type="like"]');
-    if (likeButton) {
-      likeButton.addEventListener('click', handleLikePost);
-    }
-
-    const commentForm = element.querySelector('.postpage-comment-form');
-    if (commentForm) {
-      commentForm.addEventListener('submit', handleAddComment);
-    }
-  };
 
   // 이벤트 리스너 등록 함수
   const init = async () => {
     await fetchPostAndRender();
+    await fetchCommentsAndRender();
   };
 
 

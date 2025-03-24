@@ -1,4 +1,4 @@
-import { API_BASE_URL, MOCK_DELAY } from "../constants/api";
+import { API_BASE_URL, MOCK_DELAY } from "../constants/api.js";
 
 // 인증 토큰 관리
 const getToken = () => {
@@ -184,6 +184,22 @@ export const api = {
   deletePost: (id) => {
     return apiRequest(`/api/posts/${id}`, {
       method: 'DELETE'
+    });
+  },
+
+  createComments: (id) => {
+    return apiRequest(`/api/comments/${id}`, {
+      method: 'POST'
+    });
+  },
+
+  getComments: (id) => {
+    return apiRequest(`/api/comments/${id}`);
+  },
+
+  deleteComments: (id) => {
+    return apiRequest(`/api/comments/${id}`, {
+      method: DELETE
     });
   },
 
