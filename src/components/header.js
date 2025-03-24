@@ -1,4 +1,5 @@
 import { api } from "../services/api.js";
+import { navigate } from "../utils/navigate.js";
 
 const Header = () => {
   // DOM 요소 생성
@@ -8,11 +9,32 @@ const Header = () => {
   // 사용자 데이터
   let userData = null;
 
+  const handleMenuItemClick = (e) => {
+    const action = e.currentTarget.getAttribute('data-action');
+    switch (action) {
+      case 'profile':
+        navigate('/profile?type=profile');
+        break;
+      case 'password':
+        navigate('/profile?type=password');
+        break;
+      case 'board':
+        navigate('/board');
+        break;
+      default:
+        console.warn('지원하지 않는 메뉴 액션', action);
+    }
+
+    const menuDropdown = element.querySelector('.header-menu-dropdown');
+    // 메뉴 닫기
+    if (menuDropdown) {
+      menuDropdown.classList.remove('show');
+    }
+  };
+
   // 뒤로가기 버튼 클릭 처리 함수
   const handleBackClick = (e) => {
-    e.preventDefault();
-    window.history.pushState(null, null, '/board');
-    window.dispatchEvent(new PopStateEvent('popstate'));
+    navigate('/board');
   };
 
   // 프로필 클릭 처리 함수 (드롭다운 메뉴 토글)
@@ -22,45 +44,6 @@ const Header = () => {
     const menuDropdown = element.querySelector('.header-menu-dropdown');
     if (menuDropdown) {
       menuDropdown.classList.toggle('show');
-    }
-  };
-
-  // 프로필 페이지로 이동하는 함수
-  const navigateToProfile = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    window.history.pushState(null, null, '/profile?type=profile');
-    window.dispatchEvent(new PopStateEvent('popstate'));
-    // 메뉴 닫기
-    const menuDropdown = element.querySelector('.header-menu-dropdown');
-    if (menuDropdown) {
-      menuDropdown.classList.remove('show');
-    }
-  };
-
-  // 비밀번호 변경 페이지로 이동하는 함수
-  const navigateToPasswordChange = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    window.history.pushState(null, null, '/profile?type=password');
-    window.dispatchEvent(new PopStateEvent('popstate'));
-    // 메뉴 닫기
-    const menuDropdown = element.querySelector('.header-menu-dropdown');
-    if (menuDropdown) {
-      menuDropdown.classList.remove('show');
-    }
-  };
-
-  // 게시판 페이지로 이동하는 함수
-  const navigateToBoard = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    window.history.pushState(null, null, '/board');
-    window.dispatchEvent(new PopStateEvent('popstate'));
-    // 메뉴 닫기
-    const menuDropdown = element.querySelector('.header-menu-dropdown');
-    if (menuDropdown) {
-      menuDropdown.classList.remove('show');
     }
   };
 

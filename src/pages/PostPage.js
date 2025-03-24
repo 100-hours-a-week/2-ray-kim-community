@@ -1,15 +1,13 @@
 import Comment from "../components/Comment.js";
 import { api } from "../services/api.js";
+import { navigate } from "../utils/navigate.js";
 
 const PostPage = () => {
-  // DOM 요소 생성
   const element = document.createElement('div');
   element.className = 'post-page';
 
   const urlParams = new URLSearchParams(window.location.search);
   const postId = urlParams.get('id');
-
-  let post = null;
 
   // 게시글 삭제 처리
   const handleDeletePost = async () => {
@@ -20,8 +18,7 @@ const PostPage = () => {
     try {
       await api.deletePost(postId);
       alert('게시글이 삭제되었습니다.');
-      window.history.pushState(null, null, '/board');
-      window.dispatchEvent(new PopStateEvent('popstate'));
+      navigate('/board');
     } catch (error) {
       console.error('게시글 삭제 오류:', error);
       alert('게시글 삭제 중 오류가 발생했습니다.');
@@ -140,7 +137,6 @@ const PostPage = () => {
 
   // 게시글 내용 렌더링
   const renderPost = (post) => {
-    console.log(post);
     element.innerHTML = `
       <div class="postpage-container">        
         <!-- 게시글 헤더 -->
