@@ -1,4 +1,4 @@
-import { handleAddComment, handleDeletePost, handleEditPostClick, handleLikePost } from "./eventHandlers";
+import { handleAddComment, handleDeletePost, handleEditPostClick, handleLikePost } from "./eventHandlers.js";
 
 export const attachEventListenersToPostPage = (element, postId) => {
   const editButton = element.querySelector('.postpage-btn-edit');
