@@ -89,7 +89,7 @@ export const handleMenuItemClick = (e, element) => {
 
 // 뒤로가기 버튼 클릭 처리 함수
 export const handleBackClick = (e) => {
-  navigate('/board');
+  navigate(e, '/board');
 };
 
 // 프로필 클릭 처리 함수 (드롭다운 메뉴 토글)

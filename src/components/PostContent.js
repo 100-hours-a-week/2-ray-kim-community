@@ -53,10 +53,7 @@ const PostContent = (post, comments) => {
       </div>
       <!-- 댓글 목록 -->
       <div class="postpage-comments-container">
-      ${comments && comments.length
-      ? comments.map(comment => Comment(comment)).join('')
-      : '<p>댓글이 없습니다. 첫 댓글을 작성해보세요!</p>'
-    }
+ 
       </div >
     </div >
   `;
