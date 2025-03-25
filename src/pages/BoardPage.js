@@ -1,4 +1,4 @@
-import Post from "../components/Post.js";
+import PostItem from "../components/PostItem.js";
 import { api } from "../services/api.js";
 
 const BoardPage = () => {
@@ -25,7 +25,7 @@ const BoardPage = () => {
       }
 
       posts.forEach(postData => {
-        const postComponent = Post(postData);
+        const postComponent = PostItem(postData);
         container.appendChild(postComponent.render());
       });
     } catch (error) {

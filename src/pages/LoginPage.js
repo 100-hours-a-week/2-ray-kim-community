@@ -1,4 +1,5 @@
-import { api, setToken } from "../services/api.js";
+import { api } from "../services/api.js";
+import { setToken } from "../utils/token.js";
 
 const LoginPage = () => {
   // DOM 요소 생성

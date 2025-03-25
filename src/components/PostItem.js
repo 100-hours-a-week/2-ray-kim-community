@@ -1,22 +1,7 @@
 import { api } from "../services/api.js";
+import { formatDate } from "../utils/format.js";
 
-// 날짜 포맷팅 함수 추가
-const formatDate = (dateString) => {
-  if (!dateString) return '';
-
-  try {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('ko-KR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  } catch (error) {
-    return dateString; // 오류 발생 시 원본 문자열 반환
-  }
-};
-
-const Post = (postData) => {
+const PostItem = (postData) => {
   const element = document.createElement('div');
   element.className = 'post-component';
 
@@ -75,4 +60,4 @@ const Post = (postData) => {
   };
 };
 
-export default Post;
+export default PostItem;

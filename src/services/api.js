@@ -1,73 +1,61 @@
 import { API_BASE_URL, MOCK_DELAY } from "../constants/api.js";
-
-// 인증 토큰 관리
-const getToken = () => {
-  return localStorage.getItem('token');
-};
-
-export const setToken = (token) => {
-  localStorage.setItem('token', token);
-};
-
-const removeToken = () => {
-  localStorage.removeItem('token');
-};
+import { setToken } from "../utils/token.js";
 
 // JSON 파일 로드 함수
-async function loadMockData(filename) {
-  try {
-    const response = await fetch(`/public/mock/${filename}.json`);
-    if (!response.ok) {
-      throw new Error(`모의 데이터 파일을 불러올 수 없습니다: ${filename}`);
-    }
-    return response.json();
-  } catch (error) {
-    console.error(`모의 데이터 로드 오류(${filename}):`, error);
-    throw error;
-  }
-}
+// async function loadMockData(filename) {
+//   try {
+//     const response = await fetch(`/public/mock/${filename}.json`);
+//     if (!response.ok) {
+//       throw new Error(`모의 데이터 파일을 불러올 수 없습니다: ${filename}`);
+//     }
+//     return response.json();
+//   } catch (error) {
+//     console.error(`모의 데이터 로드 오류(${filename}):`, error);
+//     throw error;
+//   }
+// }
 
 // 모의 데이터와 실제 API 호출을 처리하는 함수
 async function apiRequest(endpoint, options = {}) {
   // 개발 환경에서는 모의 데이터 사용
   if (false) {
-    await new Promise(resolve => setTimeout(resolve, MOCK_DELAY));
+    // await new Promise(resolve => setTimeout(resolve, MOCK_DELAY));
 
-    if (endpoint.startsWith('/api/posts') && !endpoint.match(/^\/api\/posts\/\d+/)) {
-      return loadMockData('posts');
-    }
-    else if (endpoint.match(/^\/api\/posts\/\d+/)) {
-      // 특정 ID를 가진 게시글 처리
-      const postId = parseInt(endpoint.split('/').pop().split('?')[0]);
-      try {
-        return await loadMockData(`post-${postId}`);
-      } catch (error) {
-        return { message: "post_not_found", data: null };
-      }
-    }
-    else if (endpoint === '/api/users/profile') {
-      return loadMockData('userProfile');
-    }
-    else if (endpoint === '/api/auth/login') {
-      // 로그인 처리
-      const body = JSON.parse(options.body || '{}');
-      if (body.email && body.password) {
-        const authData = await loadMockData('auth');
-        const response = authData.login;
-        // 인증 토큰 저장
-        setToken(response.data.token);
-        return response;
-      }
-      return { message: "invalid_credentials", data: null };
-    }
-    else if (endpoint === '/api/auth/signup') {
-      // 회원가입 처리
-      const authData = await loadMockData('auth');
-      return authData.signup;
-    }
+    // if (endpoint.startsWith('/api/posts') && !endpoint.match(/^\/api\/posts\/\d+/)) {
+    //   return loadMockData('posts');
+    // }
+    // else if (endpoint.match(/^\/api\/posts\/\d+/)) {
+    //   // 특정 ID를 가진 게시글 처리
+    //   const postId = parseInt(endpoint.split('/').pop().split('?')[0]);
+    //   try {
+    //     return await loadMockData(`post-${postId}`);
+    //   } catch (error) {
+    //     return { message: "post_not_found", data: null };
+    //   }
+    // }
+    // else if (endpoint === '/api/users/profile') {
+    //   return loadMockData('userProfile');
+    // }
+    // else if (endpoint === '/api/auth/login') {
+    //   // 로그인 처리
+    //   const body = JSON.parse(options.body || '{}');
+    //   if (body.email && body.password) {
+    //     const authData = await loadMockData('auth');
+    //     const response = authData.login;
+    //     // 인증 토큰 저장
+    //     setToken(response.data.token);
+    //     return response;
+    //   }
+    //   return { message: "invalid_credentials", data: null };
+    // }
+    // else if (endpoint === '/api/auth/signup') {
+    //   // 회원가입 처리
+    //   const authData = await loadMockData('auth');
+    //   return authData.signup;
+    // }
 
-    // 기본 응답 (엔드포인트를 찾지 못한 경우)
-    return { message: "not_found", data: null };
+    // // 기본 응답 (엔드포인트를 찾지 못한 경우)
+    // return { message: "not_found", data: null };
   }
 
   // 실제 API 호출 (프로덕션 환경)
@@ -94,7 +82,7 @@ async function apiRequest(endpoint, options = {}) {
 
     return response.json();
   } catch (error) {
-    console.error('API 요청 오류:', error);
+    console.error(`API 요청 오류 (${endpoint}):`, error);
     throw error;
   }
 }
