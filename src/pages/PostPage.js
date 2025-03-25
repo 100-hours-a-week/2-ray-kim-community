@@ -1,7 +1,6 @@
-import Comment from "../components/Comment.js";
+import PostContent from "../components/PostContent.js";
 import { api } from "../services/api.js";
 import { attachEventListenersToPostPage } from "../utils/attachEventListeners.js";
-import { navigate } from "../utils/navigate.js";
 
 const PostPage = () => {
   const element = document.createElement('div');

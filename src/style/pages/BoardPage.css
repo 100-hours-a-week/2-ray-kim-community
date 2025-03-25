@@ -3,6 +3,10 @@
   justify-content: center;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 .board-container {
   display: flex;
   flex-direction: column;
