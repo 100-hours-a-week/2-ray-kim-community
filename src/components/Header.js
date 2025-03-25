@@ -13,13 +13,13 @@ const Header = () => {
     const action = e.currentTarget.getAttribute('data-action');
     switch (action) {
       case 'profile':
-        navigate('/profile?type=profile');
+        navigate(e, '/profile?type=profile');
         break;
       case 'password':
-        navigate('/profile?type=password');
+        navigate(e, '/profile?type=password');
         break;
       case 'board':
-        navigate('/board');
+        navigate(e, '/board');
         break;
       default:
         console.warn('지원하지 않는 메뉴 액션', action);
@@ -57,8 +57,7 @@ const Header = () => {
       await api.logout();
 
       // 로그인 페이지로 리다이렉트
-      window.history.pushState(null, null, '/login');
-      window.dispatchEvent(new PopStateEvent('popstate'));
+      navigate('/login');
     } catch (error) {
       console.error('로그아웃 오류:', error);
       alert('로그아웃 중 오류가 발생했습니다.');
@@ -106,17 +105,17 @@ const Header = () => {
 
     const profileMenuItem = element.querySelector('.menu-item[data-action="profile"]');
     if (profileMenuItem) {
-      profileMenuItem.addEventListener('click', navigateToProfile);
+      profileMenuItem.addEventListener('click', handleMenuItemClick);
     }
 
     const passwordMenuItem = element.querySelector('.menu-item[data-action="password"]');
     if (passwordMenuItem) {
-      passwordMenuItem.addEventListener('click', navigateToPasswordChange);
+      passwordMenuItem.addEventListener('click', handleMenuItemClick);
     }
 
     const boardMenuItem = element.querySelector('.menu-item[data-action="board"]');
     if (boardMenuItem) {
-      boardMenuItem.addEventListener('click', navigateToBoard);
+      boardMenuItem.addEventListener('click', handleMenuItemClick);
     }
 
     const logoutMenuItem = element.querySelector('.menu-item[data-action="logout"]');

@@ -1,7 +1,7 @@
 // PostPage
 
-import api from "../services/api";
-import { navigate } from "./navigate";
+import api from "../services/api.js";
+import { navigate } from "./navigate.js";
 
 // 게시글 삭제 처리
 export const handleDeletePost = async (postId) => {
