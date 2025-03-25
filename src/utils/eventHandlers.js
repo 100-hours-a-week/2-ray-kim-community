@@ -51,7 +51,7 @@ export const handleAddComment = async (e, element, postId) => {
     commentInput.value = '';
 
     // 댓글 작성 후 페이지 새로고침
-    await fetchPostAndRender();
+    navigate(`/post?id=${postId}`);
   } catch (error) {
     console.error('댓글 등록 오류:', error);
     alert('댓글 등록 중 오류가 발생했습니다.');
@@ -64,7 +64,7 @@ export const handleEditPostClick = (postId) => {
 };
 
 // Header.js
-export const handleMenuItemClick = (e, element) => {
+export const handleMenuItemClick = (element, e) => {
   const action = e.currentTarget.getAttribute('data-action');
   switch (action) {
     case 'profile':
@@ -93,7 +93,7 @@ export const handleBackClick = (e) => {
 };
 
 // 프로필 클릭 처리 함수 (드롭다운 메뉴 토글)
-export const handleProfileClick = (e) => {
+export const handleProfileClick = (element, e) => {
   e.preventDefault();
   e.stopPropagation();
   const menuDropdown = element.querySelector('.header-menu-dropdown');

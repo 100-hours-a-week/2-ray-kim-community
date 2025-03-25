@@ -175,7 +175,7 @@ export const api = {
     });
   },
 
-  createComments: (id) => {
+  createComment: (id) => {
     return apiRequest(`/api/comments/${id}`, {
       method: 'POST'
     });
@@ -185,7 +185,7 @@ export const api = {
     return apiRequest(`/api/comments/${id}`);
   },
 
-  deleteComments: (id) => {
+  deleteComment: (id) => {
     return apiRequest(`/api/comments/${id}`, {
       method: DELETE
     });
@@ -207,7 +207,7 @@ export const api = {
   createComment: (postId, content) => {
     return apiRequest(`/api/comments/${postId}`, {
       method: 'POST',
-      body: JSON.stringify({ content })
+      body: JSON.stringify({ "content": content })
     });
   },
 

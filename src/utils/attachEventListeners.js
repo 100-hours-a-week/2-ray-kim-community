@@ -31,26 +31,26 @@ export const attachEventListenersToHeader = (element) => {
 
   const profileImage = element.querySelector('.user-profile');
   if (profileImage) {
-    profileImage.addEventListener('click', (e) => handleProfileClick(e, element));
+    profileImage.addEventListener('click', (e) => handleProfileClick(element, e));
   }
 
   const profileMenuItem = element.querySelector('.menu-item[data-action="profile"]');
   if (profileMenuItem) {
-    profileMenuItem.addEventListener('click', (e) => handleMenuItemClick(e, element));
+    profileMenuItem.addEventListener('click', (e) => handleMenuItemClick(element, e));
   }
 
   const passwordMenuItem = element.querySelector('.menu-item[data-action="password"]');
   if (passwordMenuItem) {
-    passwordMenuItem.addEventListener('click', (e) => handleMenuItemClick(e, element));
+    passwordMenuItem.addEventListener('click', (e) => handleMenuItemClick(element, e));
   }
 
   const boardMenuItem = element.querySelector('.menu-item[data-action="board"]');
   if (boardMenuItem) {
-    boardMenuItem.addEventListener('click', (e) => handleMenuItemClick(e, element));
+    boardMenuItem.addEventListener('click', (e) => handleMenuItemClick(element, e));
   }
 
   const logoutMenuItem = element.querySelector('.menu-item[data-action="logout"]');
   if (logoutMenuItem) {
-    logoutMenuItem.addEventListener('click', (e) => handleLogout(e, element));
+    logoutMenuItem.addEventListener('click', (e) => handleLogout(element, e));
   }
 }

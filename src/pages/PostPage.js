@@ -10,17 +10,29 @@ const PostPage = () => {
   const postId = urlParams.get('id');
 
   // 게시글 데이터 가져오기 및 렌더링
-  const renderFetchData = async () => {
-    const resPostDetails = await api.getPost(postId);
-    const resComments = await api.getComments(postId);
+  const fetchPostAndRender = async () => {
+    try {
+      const resPostDetails = await api.getPost(postId);
 
-    PostContent(resPostDetails.data, resComments.data);
+      // PostContent 컴포넌트가 반환한 HTML 문자열을 삽입
+      element.innerHTML = PostContent(resPostDetails.data);
+
+      // 이벤트 리스너 재등록
+      attachEventListenersToPostPage(element, postId);
+    } catch (error) {
+      console.error('게시글 불러오기 오류:', error);
+      element.innerHTML = `
+        <div class="postpage-container">
+          <p>게시글을 불러오는 중 오류가 발생했습니다.</p>
+        </div>
+      `;
+    }
   };
 
   // 이벤트 리스너 등록 함수
-  const init = () => {
-    renderFetchData();
-    attachEventListenersToPostPage(element, postId);
+  const init = async () => {
+    // 게시글 데이터 가져오기 및 렌더링
+    await fetchPostAndRender();
   };
 
   const render = () => {

@@ -1,7 +1,7 @@
-const PostContent = (post, comments) => {
-  const container = document.getElementsByClassName('post-page');
+const PostContent = (post) => {
+  const comments = post.commentsData;
 
-  container.innerHTML = `
+  return `
     <div class="postpage-container">        
       <!-- 게시글 헤더 -->
       <div class="postpage-header">
@@ -51,11 +51,21 @@ const PostContent = (post, comments) => {
           <button type="submit" class="postpage-comment-submit">댓글 등록</button>
         </form>
       </div>
+      
       <!-- 댓글 목록 -->
       <div class="postpage-comments-container">
- 
-      </div >
-    </div >
+        ${Array.isArray(comments) ? comments.map(comment => `
+          <div class="postpage-comment-item">
+            <div class="postpage-user-avatar" style="background-image: url('${comment.author.profile_image || 'public/images/avatar.svg'}')"></div>
+            <div class="postpage-comment-content">
+              <div class="postpage-comment-author">${comment.author.nickname}</div>
+              <div class="postpage-comment-text">${comment.content}</div>
+              <div class="postpage-comment-meta">${comment.date}</div>
+            </div>
+          </div>
+        `).join('') : ''}
+      </div>
+    </div>
   `;
 };
 
