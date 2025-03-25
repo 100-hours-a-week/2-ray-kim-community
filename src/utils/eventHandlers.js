@@ -68,13 +68,13 @@ export const handleMenuItemClick = (e, element) => {
   const action = e.currentTarget.getAttribute('data-action');
   switch (action) {
     case 'profile':
-      navigate(e, '/profile?type=profile');
+      navigate('/profile?type=profile', e);
       break;
     case 'password':
-      navigate(e, '/profile?type=password');
+      navigate('/profile?type=password', e);
       break;
     case 'board':
-      navigate(e, '/board');
+      navigate('/board', e);
       break;
     default:
       console.warn('지원하지 않는 메뉴 액션', action);
@@ -89,7 +89,7 @@ export const handleMenuItemClick = (e, element) => {
 
 // 뒤로가기 버튼 클릭 처리 함수
 export const handleBackClick = (e) => {
-  navigate(e, '/board');
+  navigate('/board');
 };
 
 // 프로필 클릭 처리 함수 (드롭다운 메뉴 토글)

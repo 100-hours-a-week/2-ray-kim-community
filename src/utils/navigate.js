@@ -1,4 +1,4 @@
-export const navigate = (e = null, url) => {
+export const navigate = (url, e = null) => {
   if (e !== null) {
     e.preventDefault();
     e.stopPropagation();
