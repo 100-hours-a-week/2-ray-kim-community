@@ -1,5 +1,4 @@
 // PostPage
-
 import api from "../services/api.js";
 import { navigate } from "./navigate.js";
 
@@ -63,4 +62,65 @@ export const handleAddComment = async (e, element, postId) => {
 export const handleEditPostClick = (postId) => {
   navigate(`/post-edit?id=${postId}`)
 };
-//
+
+// Header.js
+export const handleMenuItemClick = (e, element) => {
+  const action = e.currentTarget.getAttribute('data-action');
+  switch (action) {
+    case 'profile':
+      navigate(e, '/profile?type=profile');
+      break;
+    case 'password':
+      navigate(e, '/profile?type=password');
+      break;
+    case 'board':
+      navigate(e, '/board');
+      break;
+    default:
+      console.warn('지원하지 않는 메뉴 액션', action);
+  }
+
+  const menuDropdown = element.querySelector('.header-menu-dropdown');
+  // 메뉴 닫기
+  if (menuDropdown) {
+    menuDropdown.classList.remove('show');
+  }
+};
+
+// 뒤로가기 버튼 클릭 처리 함수
+export const handleBackClick = (e) => {
+  navigate('/board');
+};
+
+// 프로필 클릭 처리 함수 (드롭다운 메뉴 토글)
+export const handleProfileClick = (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  const menuDropdown = element.querySelector('.header-menu-dropdown');
+  if (menuDropdown) {
+    menuDropdown.classList.toggle('show');
+  }
+};
+
+// 로그아웃 처리 함수
+export const handleLogout = async (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+
+  try {
+    // API 호출하여 로그아웃
+    await api.logout();
+
+    // 로그인 페이지로 리다이렉트
+    navigate('/login');
+  } catch (error) {
+    console.error('로그아웃 오류:', error);
+    alert('로그아웃 중 오류가 발생했습니다.');
+  }
+
+  // 메뉴 닫기
+  const menuDropdown = element.querySelector('.header-menu-dropdown');
+  if (menuDropdown) {
+    menuDropdown.classList.remove('show');
+  }
+};

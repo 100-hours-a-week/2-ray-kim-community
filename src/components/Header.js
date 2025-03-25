@@ -1,5 +1,5 @@
 import { api } from "../services/api.js";
-import { navigate } from "../utils/navigate.js";
+import { attachEventListenersToHeader } from "../utils/attachEventListeners.js";
 
 const Header = () => {
   // DOM 요소 생성
@@ -8,67 +8,6 @@ const Header = () => {
 
   // 사용자 데이터
   let userData = null;
-
-  const handleMenuItemClick = (e) => {
-    const action = e.currentTarget.getAttribute('data-action');
-    switch (action) {
-      case 'profile':
-        navigate(e, '/profile?type=profile');
-        break;
-      case 'password':
-        navigate(e, '/profile?type=password');
-        break;
-      case 'board':
-        navigate(e, '/board');
-        break;
-      default:
-        console.warn('지원하지 않는 메뉴 액션', action);
-    }
-
-    const menuDropdown = element.querySelector('.header-menu-dropdown');
-    // 메뉴 닫기
-    if (menuDropdown) {
-      menuDropdown.classList.remove('show');
-    }
-  };
-
-  // 뒤로가기 버튼 클릭 처리 함수
-  const handleBackClick = (e) => {
-    navigate('/board');
-  };
-
-  // 프로필 클릭 처리 함수 (드롭다운 메뉴 토글)
-  const handleProfileClick = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const menuDropdown = element.querySelector('.header-menu-dropdown');
-    if (menuDropdown) {
-      menuDropdown.classList.toggle('show');
-    }
-  };
-
-  // 로그아웃 처리 함수
-  const handleLogout = async (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    try {
-      // API 호출하여 로그아웃
-      await api.logout();
-
-      // 로그인 페이지로 리다이렉트
-      navigate('/login');
-    } catch (error) {
-      console.error('로그아웃 오류:', error);
-      alert('로그아웃 중 오류가 발생했습니다.');
-    }
-
-    // 메뉴 닫기
-    const menuDropdown = element.querySelector('.header-menu-dropdown');
-    if (menuDropdown) {
-      menuDropdown.classList.remove('show');
-    }
-  };
 
   // 사용자 프로필 가져오기
   const fetchUserProfile = async () => {
@@ -90,38 +29,9 @@ const Header = () => {
 
   // 이벤트 리스너 등록 함수
   const init = async () => {
-    // 사용자 프로필 가져오기
     await fetchUserProfile();
 
-    const backButton = element.querySelector('.header-back-button');
-    if (backButton) {
-      backButton.addEventListener('click', handleBackClick);
-    }
-
-    const profileImage = element.querySelector('.user-profile');
-    if (profileImage) {
-      profileImage.addEventListener('click', handleProfileClick);
-    }
-
-    const profileMenuItem = element.querySelector('.menu-item[data-action="profile"]');
-    if (profileMenuItem) {
-      profileMenuItem.addEventListener('click', handleMenuItemClick);
-    }
-
-    const passwordMenuItem = element.querySelector('.menu-item[data-action="password"]');
-    if (passwordMenuItem) {
-      passwordMenuItem.addEventListener('click', handleMenuItemClick);
-    }
-
-    const boardMenuItem = element.querySelector('.menu-item[data-action="board"]');
-    if (boardMenuItem) {
-      boardMenuItem.addEventListener('click', handleMenuItemClick);
-    }
-
-    const logoutMenuItem = element.querySelector('.menu-item[data-action="logout"]');
-    if (logoutMenuItem) {
-      logoutMenuItem.addEventListener('click', handleLogout);
-    }
+    attachEventListenersToHeader(element);
 
     // 메뉴 바깥 영역 클릭 시 메뉴 닫기
     document.addEventListener('click', () => {
