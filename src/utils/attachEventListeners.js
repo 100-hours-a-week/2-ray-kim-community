@@ -1,4 +1,4 @@
-import { handleAddComment, handleBackClick, handleDeletePost, handleEditPostClick, handleLikePost, handleLogout, handleMenuItemClick, handleProfileClick } from "./eventHandlers.js";
+import { handleAddComment, handleBackClick, handleDeletePost, handleEditPostClick, handleLikePost, handleLogout, handleMenuItemClick, handlePasswordSubmit, handleProfileClick, handleProfileImageChange, handleProfileSubmit, handleWithdrawal } from "./eventHandlers.js";
 
 export const attachEventListenersToPostPage = (element, postId) => {
   const editButton = element.querySelector('.postpage-btn-edit');
@@ -51,6 +51,38 @@ export const attachEventListenersToHeader = (element) => {
 
   const logoutMenuItem = element.querySelector('.menu-item[data-action="logout"]');
   if (logoutMenuItem) {
-    logoutMenuItem.addEventListener('click', (e) => handleLogout(element, e));
+    logoutMenuItem.addEventListener('click', handleLogout);
   }
 }
+
+export const attachEventListenersToProfileInfoPage = (element) => {
+  // 프로필 이미지 클릭 이벤트
+  const profileAvatar = element.querySelector('.profilepage-avatar');
+  const imageInput = element.querySelector('#profile-userImage');
+  if (profileAvatar && imageInput) {
+    profileAvatar.addEventListener('click', () => {
+      imageInput.click();
+    });
+    imageInput.addEventListener('change', handleProfileImageChange);
+  }
+
+  // 프로필 폼 제출 이벤트
+  const profileForm = element.querySelector('#profilepage-form');
+  if (profileForm) {
+    profileForm.addEventListener('submit', handleProfileSubmit);
+  }
+
+  // 회원 탈퇴 버튼 이벤트
+  const withdrawalButton = element.querySelector('.profilepage-btn-withdrawal');
+  if (withdrawalButton) {
+    withdrawalButton.addEventListener('click', handleWithdrawal);
+  }
+};
+
+export const attachEventListenersToPasswordChangePage = (element) => {
+  // 비밀번호 폼 제출 이벤트
+  const passwordForm = element.querySelector('#profilepage-password-form');
+  if (passwordForm) {
+    passwordForm.addEventListener('submit', handlePasswordSubmit);
+  }
+};

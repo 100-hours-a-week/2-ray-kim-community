@@ -1,4 +1,6 @@
+//
 // PostPage
+//
 import api from "../services/api.js";
 import { navigate } from "./navigate.js";
 
@@ -63,7 +65,9 @@ export const handleEditPostClick = (postId) => {
   navigate(`/post-edit?id=${postId}`)
 };
 
-// Header.js
+// 
+//Header.js
+//
 export const handleMenuItemClick = (element, e) => {
   const action = e.currentTarget.getAttribute('data-action');
   switch (action) {
@@ -104,8 +108,8 @@ export const handleProfileClick = (element, e) => {
 
 // 로그아웃 처리 함수
 export const handleLogout = async (e) => {
-  e.preventDefault();
-  e.stopPropagation();
+  // e.preventDefault();
+  // e.stopPropagation();
 
   try {
     // API 호출하여 로그아웃
@@ -122,5 +126,112 @@ export const handleLogout = async (e) => {
   const menuDropdown = element.querySelector('.header-menu-dropdown');
   if (menuDropdown) {
     menuDropdown.classList.remove('show');
+  }
+};
+
+//
+// ProfileInfoPage
+//
+
+// 프로필 이미지 변경 처리
+export const handleProfileImageChange = async (e) => {
+  const fileInput = e.target;
+  if (fileInput.files && fileInput.files[0]) {
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+
+    reader.onload = async (e) => {
+      const profileAvatar = document.querySelector('.profilepage-avatar');
+      if (profileAvatar) {
+        // img 태그의 src 속성을 변경
+        profileAvatar.src = e.target.result;
+
+        try {
+          // API 호출하여 프로필 이미지 업데이트
+          await api.updateProfileImage(file);
+        } catch (error) {
+          console.error('프로필 이미지 업데이트 오류:', error);
+          alert('프로필 이미지 업데이트 중 오류가 발생했습니다.');
+        }
+      }
+    };
+
+    reader.readAsDataURL(file);
+  }
+};
+
+// 프로필 폼 제출 처리
+export const handleProfileSubmit = async (e) => {
+  e.preventDefault();
+
+  // 폼 데이터 수집
+  const nameInput = document.getElementById('profile-userName');
+
+  try {
+    // API 호출하여 프로필 업데이트
+    const profileData = {
+      nickname: nameInput.value
+    };
+
+    await api.updateProfile(profileData);
+
+    // 성공 메시지 표시
+    alert('프로필이 성공적으로 업데이트되었습니다.');
+
+    // 게시판 페이지로 리다이렉트
+    navigate('/board');
+  } catch (error) {
+    console.error('프로필 업데이트 오류:', error);
+    alert('프로필 업데이트 중 오류가 발생했습니다.');
+  }
+};
+
+// 회원 탈퇴 처리
+export const handleWithdrawal = async () => {
+  if (confirm('정말로 탈퇴하시겠습니까? 이 작업은 되돌릴 수 없습니다.')) {
+    try {
+      // API 호출하여 회원 탈퇴
+      await api.deleteAccount();
+
+      alert('회원 탈퇴가 처리되었습니다.');
+
+      // 로그인 페이지로 리다이렉트
+      navigate('/login');
+    } catch (error) {
+      console.error('회원 탈퇴 오류:', error);
+      alert('회원 탈퇴 중 오류가 발생했습니다.');
+    }
+  }
+};
+
+//
+// PasswordchangePage
+//
+
+export const handlePasswordSubmit = async (e) => {
+  e.preventDefault();
+
+  // 폼 데이터 수집
+  const passwordInput = document.getElementById('profile-userPassword');
+  const passwordConfirmInput = document.getElementById('profile-userPasswordConfirm');
+
+  // 비밀번호 확인 검증
+  if (passwordInput.value !== passwordConfirmInput.value) {
+    alert('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+    return;
+  }
+
+  try {
+    // API 호출하여 비밀번호 업데이트
+    await api.updatePassword(null, passwordInput.value);
+
+    // 성공 메시지 표시
+    alert('비밀번호가 성공적으로 변경되었습니다.');
+
+    // 게시판 페이지로 리다이렉트
+    navigate('/board');
+  } catch (error) {
+    console.error('비밀번호 업데이트 오류:', error);
+    alert('비밀번호 업데이트 중 오류가 발생했습니다.');
   }
 };

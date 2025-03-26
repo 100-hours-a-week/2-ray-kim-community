@@ -43,14 +43,14 @@ const Header = () => {
   };
 
   const render = () => {
-    const isPostPage = window.location.pathname === '/post' || window.location.pathname.includes('/post');
+    const isActivePage = window.location.pathname === '/password' || window.location.pathname === '/profile' || window.location.pathname.includes('/post');
     const isNotLoginPage = window.location.pathname !== '/' && window.location.pathname !== '/login' && window.location.pathname !== '/signup';
     const isAuthenticated = api.isAuthenticated();
 
     element.innerHTML = `
       <div class="header-container">
         <div class="header-wrapper">
-          ${isPostPage ? `
+          ${isActivePage ? `
           <button class="header-back-button">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M15 4L7 12L15 20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -60,7 +60,7 @@ const Header = () => {
           <h1 class="header-title">
             아무 말 대잔치
           </h1>
-          ${isPostPage ? '<div class="header-spacer"></div>' : ''}
+          ${isActivePage ? '<div class="header-spacer"></div>' : ''}
           ${isNotLoginPage && isAuthenticated ? `
             <div class="header-profile-container">
               <img class="user-profile" alt="avatar" src="public/images/avatar.svg" />

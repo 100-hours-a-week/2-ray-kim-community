@@ -1,5 +1,5 @@
 import { API_BASE_URL, MOCK_DELAY } from "../constants/api.js";
-import { getToken, setToken } from "../utils/token.js";
+import { getToken, removeToken, setToken } from "../utils/token.js";
 
 // JSON 파일 로드 함수
 // async function loadMockData(filename) {
