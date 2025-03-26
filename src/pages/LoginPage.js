@@ -1,4 +1,5 @@
 import { api } from "../services/api.js";
+import { navigate } from "../utils/navigate.js";
 import { setToken } from "../utils/token.js";
 
 const LoginPage = () => {
@@ -20,9 +21,7 @@ const LoginPage = () => {
 
       setToken(response.data.token);
 
-      // 게시판 페이지로 이동
-      window.history.pushState(null, null, '/board');
-      window.dispatchEvent(new PopStateEvent('popstate'));
+      navigate('/board');
     } catch (error) {
       console.error('로그인 오류:', error);
       alert('로그인 중 오류가 발생했습니다.');

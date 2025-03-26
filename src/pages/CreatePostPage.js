@@ -1,4 +1,5 @@
 import { api } from "../services/api.js";
+import { navigate } from "../utils/navigate.js";
 
 const CreatePostPage = () => {
   // DOM 요소 생성
@@ -21,20 +22,29 @@ const CreatePostPage = () => {
       return;
     }
 
-    // 게시글 데이터 준비
-    const postData = {
-      title: titleInput.value,
-      content: contentInput.value,
-      image: imageFile
-    };
-
     try {
-      // API 호출
+      let thumbnailImageUrl = null;
+
+      // 이미지가 있으면 업로드
+      if (imageFile) {
+        const formData = new FormData();
+        formData.append('file', imageFile);
+
+        const fileResponse = await api.uploadPostImage(formData);
+        console.log(fileResponse);
+        thumbnailImageUrl = fileResponse.data.fileUrl; // 반환된 이미지 URL 저장
+      }
+
+      const postData = {
+        title: titleInput.value,
+        content: contentInput.value,
+        thumbnailImage: thumbnailImageUrl // 업로드된 이미지 URL
+      };
+
       await api.createPost(postData);
 
       alert('게시글이 성공적으로 등록되었습니다.');
-      window.history.pushState(null, null, '/board');
-      window.dispatchEvent(new PopStateEvent('popstate'));
+      navigate('/board');
     } catch (error) {
       console.error('게시글 등록 오류:', error);
       alert('게시글 등록 중 오류가 발생했습니다.');

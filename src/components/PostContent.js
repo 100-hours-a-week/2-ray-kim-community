@@ -1,5 +1,9 @@
+import { API_BASE_URL } from "../constants/api.js";
+
 const PostContent = (post) => {
   const comments = post.commentsData;
+  const imageUrl = `${API_BASE_URL}${post.thumbnailImage}`;
+  console.log(imageUrl);
 
   return `
     <div class="postpage-container">        
@@ -20,9 +24,16 @@ const PostContent = (post) => {
           ` : ''}
         </div>
       </div> 
+      <!-- 이미지가 있는 경우 표시 -->
+      ${imageUrl ? `
+      <div class="postpage-image-container">
+        <img src="${imageUrl}" alt="게시글 이미지" class="postpage-image">
+      </div>
+      ` : ''}
       
       <!-- 게시글 본문 --> 
       <div class="postpage-content">
+          <div style="background-image: url('${post.author.profile_image}')"></div>  
         ${post.content ? post.content.split('\n').map(line => `<p>${line}</p>`).join('') : '<p>내용이 없습니다.</p>'}
       </div>
       

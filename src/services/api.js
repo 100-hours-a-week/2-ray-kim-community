@@ -143,7 +143,7 @@ export const api = {
   },
 
   // 게시글 관련 API
-  getPosts: (page = 0, limit = 10) => {
+  getPosts: (page = 1, limit = 10) => {
     return apiRequest(`/api/posts?page=${page}&limit=${limit}`);
   },
 
@@ -159,6 +159,21 @@ export const api = {
     return apiRequest('/api/posts', {
       method: 'POST',
       body: JSON.stringify(postData)
+    });
+  },
+
+  uploadPostImage: (formData) => {
+    return fetch(`${API_BASE_URL}/api/files/post`, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Authorization': `Bearer ${getToken()}`
+      }
+    }).then(response => {
+      if (!response.ok) {
+        throw new Error('이미지 업로드에 실패했습니다.');
+      }
+      return response.json();
     });
   },
 
