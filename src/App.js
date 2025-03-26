@@ -3,9 +3,10 @@ import LoginPage from './pages/LoginPage.js';
 import SignUpPage from './pages/SignUpPage.js';
 import BoardPage from './pages/BoardPage.js';
 import PostPage from './pages/PostPage.js';
-import ProfilePage from './pages/ProfilePage.js';
 import EditPostPage from './pages/EditPostPage.js';
 import CreatePostPage from './pages/CreatePostPage.js';
+import PasswordChangePage from './pages/PasswordChangePage.js';
+import ProfileInfoPage from './pages/ProfileInfoPage.js';
 
 const App = () => {
   const routes = {
@@ -16,7 +17,8 @@ const App = () => {
     '/post': PostPage,
     '/post-edit': EditPostPage,
     '/post-create': CreatePostPage,
-    '/profile': ProfilePage,
+    '/profile': ProfileInfoPage,
+    '/password': PasswordChangePage,
   };
 
   const mount = () => {

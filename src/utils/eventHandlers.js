@@ -68,10 +68,10 @@ export const handleMenuItemClick = (element, e) => {
   const action = e.currentTarget.getAttribute('data-action');
   switch (action) {
     case 'profile':
-      navigate('/profile?type=profile', e);
+      navigate('/profile', e);
       break;
     case 'password':
-      navigate('/profile?type=password', e);
+      navigate('/password', e);
       break;
     case 'board':
       navigate('/board', e);
