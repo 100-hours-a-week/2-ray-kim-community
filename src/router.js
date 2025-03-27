@@ -1,71 +1,31 @@
-import Header from "./components/Header.js";
+import { routes } from "./constants/routes.js";
+import Layout from "./layout.js";
 
-const Router = (routes, container) => {
-  // 현재 경로 상태
-  let currentPath = window.location.pathname;
+const Router = (pathname = window.location.pathname) => {
+  window.addEventListener('popstate', () => Router(window.location.pathname));
 
-  // 페이지 렌더링 함수
-  const renderPage = (pathname) => {
-    container.innerHTML = '';
+  const body = document.body;
+  body.innerHTML = '';
+  const main = document.getElementById('main');
 
-    // 헤더 추가
-    const header = Header();
-    container.appendChild(header.render());
+  // 레이아웃 컴포넌트
+  const layout = Layout();
+  body.appendChild(layout);
 
-    // 콘텐츠 컨테이너 생성
-    const path = pathname === '/' ? '/' : `/${pathname.split('/')[1]}`;
-    const PageComponent = routes[path] || routes['/'];
-    const page = PageComponent();
-    container.appendChild(page.render());
+  // 내부 영역 컴포넌트
+  const path = pathname === '/' ? '/' : `/${pathname.split('/')[1]}`;
+  const page = document.createElement('div');
+  page.className = `${path}-page`;
 
-    // 페이지 초기화 (이벤트 핸들러 등록 등)
-    if (typeof page.init === 'function') {
-      page.init();
-    }
+  const PageComponent = routes[path];
+  const pageElement = PageComponent();
+  page.innerHTML = pageElement;
+  main.appendChild(page);
 
-    // 헤더 초기화 (이벤트 핸들러 등록 등)
-    if (typeof header.init === 'function') {
-      header.init();
-    }
-  };
+  body.appendChild(main);
 
-  // 페이지 이동 함수
-  const navigateTo = (path) => {
-    // 현재 URL과 같다면 무시
-    if (path === currentPath) return;
-
-    // 히스토리 API로 URL 변경
-    window.history.pushState(null, null, path);
-    currentPath = path;
-    renderPage(path);
-  };
-
-  // 라우터 초기화 함수
-  const init = () => {
-    // 초기 로드 시 현재 경로의 페이지 렌더링
-    renderPage(currentPath);
-
-    // 네비게이션 링크에 대한 이벤트 위임
-    document.body.addEventListener('click', (e) => {
-      if (e.target.matches('[data-link]')) {
-        e.preventDefault();
-        navigateTo(e.target.getAttribute('href'));
-      }
-    });
-
-    // 뒤로가기/앞으로가기 처리
-    window.addEventListener('popstate', () => {
-      currentPath = window.location.pathname;
-      renderPage(currentPath);
-    });
-  };
-
-  // 라우터 객체 반환
-  return {
-    init,
-    navigateTo,
-    renderPage
-  };
+  Layout.init();
+  PageComponent.init();
 };
 
 export default Router;
